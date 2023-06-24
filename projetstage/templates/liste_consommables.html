@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Liste des consommables</title>
+    <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %}">
+  </head>
+
+  <body>
+    {% block content %}
+    <h2>Liste des consommables</h2>
+    <div style="display: flex; flex-wrap: wrap;">
+      {% for consommable in consommables %}
+      <div style="border: 1px solid black; margin: 10px; padding: 10px;">
+        <h3>{{ consommable.nom }}</h3>
+        <table>
+          <tr>
+            <th>Description :</th>
+            <td>{{ consommable.description }}</td>
+          </tr>
+          <tr>
+            <th>Quantité :</th>
+            <td>{{ consommable.quantite }}</td>
+          </tr>
+          <tr>
+            <th>Utilisateur :</th>
+            <td>{{ consommable.id_utilisateur.nom }} {{ consommable.id_utilisateur.prenom }}</td>
+          </tr>
+          <tr>
+            <th>Fournisseur :</th>
+            <td>{{ consommable.id_fournisseur }}</td>
+          </tr>
+        </table>
+        <a href="{% url 'modifier_consommable' consommable.id_consommable %}">Modifier</a> 
+        <a href="{% url 'supprimer_consommable' consommable.id_consommable %}">Supprimer</a> 
+
+      </div>
+      {% endfor %}
+    </div>
+    {% endblock %}
+  </body>
+</html>
+
+
+
+

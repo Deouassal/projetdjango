@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html> <html> 
+  <html lang="fr"></html>
+  <head> 
+  <link rel="stylesheet" href="{% static 'projetstage/css/équipement.css' %} "> 
+  </head> 
+
+  <body> 
+
+{% block content %}
+  <h1>Ajouter un consommable</h1>
+  <form method="post">
+    {% csrf_token %}
+    <label for="id_nom">Nom :</label>
+    <input type="text" id="id_nom" name="nom"><br>
+    <label for="id_description">Description :</label>
+    <input type="text" id="id_description" name="description"><br>
+    <label for="id_quantite">Quantité :</label>
+    <input type="number" id="id_quantite" name="quantite"><br>
+    <label for="id_utilisateur">Id utilisateur :</label>
+    <input type="text" id="id_utilisateur" name="id_utilisateur"><br>
+    <label for="id_fournisseur">Id fournisseur :</label>
+    <input type="text" id="id_fournisseur" name="id_fournisseur"><br>
+    <input type="submit" value="Ajouter">
+  </form>
+
+  <!-- Lien vers le fichier JavaScript -->
+  <script src="{% static 'projetstage/js/ajout.js' %}"></script>
+
+{% endblock %}
+</body></html>

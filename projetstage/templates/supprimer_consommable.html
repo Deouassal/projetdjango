@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Supprimer un matériel informatique</title>
+  <link rel="stylesheet" href="{% static 'projetstage/css/suppression.css' %}">
+</head>
+<body>
+ <div class="container">
+  <h1>Supprimer le consommable "{{ consommable.nom }}"</h1>
+  <p>Êtes-vous sûr de vouloir supprimer ce consommable ?</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Supprimer">
+  </form> 
+  <a href="{% url 'liste_consommables' %}">Annuler</a>
+ </div>
+</body>
+</html>

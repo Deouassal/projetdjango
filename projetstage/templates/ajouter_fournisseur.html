@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html> <html> 
+  <html lang="fr"></html>
+  <head> 
+    <link rel="stylesheet" href="{% static 'projetstage/css/ajout.css' %} "> 
+  </head> 
+  <body> 
+{% block content %}
+  <h1>Ajouter un fournisseur</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+  </form>
+
+  <!-- Lien vers le fichier JavaScript -->
+  <script src="{% static 'projetstage/js/ajoutfournisseur.js' %}"></script>
+
+{% endblock %}
+<body> </html>
+

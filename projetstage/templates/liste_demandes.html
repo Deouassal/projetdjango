@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+ <html lang="fr">
+  <head> <meta charset="UTF-8">
+     <title>Liste des demandes</title> 
+     <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %}"> 
+  </head> 
+  <body> 
+    {% block content %} 
+    <h2>Liste des demandes</h2> 
+    <div style="display: flex; flex-wrap: wrap;"> 
+      {% for demande in demandes %} <div style="border: 1px solid black; margin: 10px; padding: 10px;"> 
+        <h3>{{ demande.type_demande }} - {{ demande.date_demande }}</h3> 
+        <table> 
+        <tr> 
+          <th>Description :</th> 
+          <td>{{ demande.description_demande }}</td> 
+        </tr> 
+        <tr> 
+          <th>Utilisateur :</th> 
+          <td>{{ demande.id_utilisateur.nom }} {{ demande.id_utilisateur.prenom }}</td> 
+        </tr> {% if demande.type_demande == 'Maintenance' %} 
+        <tr> 
+          <th>Équipement :</th> 
+          <td>{{ demande.id_équipement.nom }}</td>
+         </tr> {% elif demande.type_demande == 'Consommables' %} 
+         <tr> <th>Consommable :</th> 
+          <td>{{ demande.id_consommable.nom }}</td>
+         </tr> {% elif demande.type_demande == 'Matérielsinformatiques' %} 
+         <tr> 
+          <th>Matériel informatique :</th> 
+          <td>{{ demande.id_materiel_informatique.nom }}</td> 
+        </tr> {% endif %}
+         <tr> 
+          <th>Date de création :</th> 
+          <td>{{ demande.date_demande }}</td> 
+        </tr> 
+        <tr> 
+          <th>État :</th>
+          <td>{{ demande.état_demande }}</td> 
+        </tr> {% if demande.coût_reparation %} 
+        <tr> 
+          <th>Coût de réparation :</th> 
+          <td>{{ demande.coût_reparation }} FCFA</td> 
+        </tr> 
+        {% endif %}
+       </table> 
+       <a href="{% url 'modifier_demande' demande.id_demande %}">Modifier</a>
+       <a href="{% url 'supprimer_demande' demande.id_demande %}">Supprimer</a>
+      </div> {% endfor %} 
+    </div> 
+    {% endblock %} 
+</body> 
+</html>
+
+
+
+

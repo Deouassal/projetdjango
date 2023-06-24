@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Liste des équipements</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Numéro de série</th>
+        <th>Date d'achat</th>
+        <th>Date début garantie</th>
+        <th>Date fin garantie</th>
+        <th>Statut</th>
+        <th>Id utilisateur</th>
+        <th>Emplacement actuel</th>
+        <th>Id fournisseur</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for equipement in equipements %}
+        <tr>
+          <td>{{ equipement.nom }}</td>
+          <td>{{ equipement.numero_serie }}</td>
+          <td>{{ equipement.date_achat }}</td>
+          <td>{{ equipement.date_debut_garantie }}</td>
+          <td>{{ equipement.date_fin_garantie }}</td>
+          <td>{{ equipement.statut }}</td>
+          <td>{{ equipement.id_utilisateur }}</td>
+          <td>{{ equipement.emplacement_actuel }}</td>
+          <td>{{ equipement.id_fournisseur }}</td>
+          <td>
+            <form action="{% url 'modifier_equipement' equipement.id %}">
+              <button type="submit">Modifier</button>
+            </form>
+            <form action="{% url 'supprimer_equipement' equipement.id %}" method="post" class="supprimer-equipement-form">
+              {% csrf_token %}
+              <button type="submit">Supprimer</button>
+            </form>
+            
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <form action="{% url 'ajouter_equipement' %}">
+    <button type="submit">Ajouter un équipement</button>
+  </form>
+{% endblock %}
+
+
+

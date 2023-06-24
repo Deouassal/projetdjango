@@ -1,0 +1,398 @@
+.jumbotron {
+    background-color: gray;
+    color: #337ab7;
+    padding: 100px 25px;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+  
+  .btn-primary {
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+  
+  .btn-primary:hover,
+  .btn-primary:focus,
+  .btn-primary:active,
+  .btn-primary.active,
+  .open .dropdown-toggle.btn-primary {
+    background-color: #286090;
+    border-color: #286090;
+  }
+  
+  .btn-default {
+    background-color: #f8f8f8;
+    border-color: #ccc;
+    color: #333;
+  }
+  
+  .btn-default:hover,
+  .btn-default:focus,
+  .btn-default:active,
+  .btn-default.active,
+  .open .dropdown-toggle.btn-default {
+    background-color: #ebebeb;
+    border-color: #adadad;
+    color: #333;
+  }
+
+/* Nom de l'application et logo*/
+
+
+/*pour la structure de base de toutes les pages*/ 
+/* Style pour le corps de la page */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  }
+  
+  /* Style pour la barre de navigation */
+  .navbar {
+  background-color:blue;
+  border-bottom: 1px solid #ccc;
+  }
+  
+  .navbar-brand {
+  font-weight: bold;
+  color: #007bff;
+  }
+  
+  .navbar-brand:hover {
+  color: #0056b3;
+  }
+  
+  .navbar-nav .nav-item {
+  margin-left: 10px;
+  }
+  
+  .navbar-nav .nav-link {
+  color: #007bff;
+  }
+  
+  .navbar-nav .nav-link:hover {
+  color: #0056b3;
+  }
+  
+  /* Style pour le contenu de la page */
+  .container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  }
+  
+  /* Style pour les liens */
+  a {
+  color: #007bff;
+  }
+  
+  a:hover {
+  color: #0056b3;
+  }
+  
+  /* Style pour les images */
+  img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+  }
+  
+
+/*pour la page d'acceuil */
+
+/* Style pour le corps de la page */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+
+  }
+  
+  /* Style pour le titre */
+  h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  }
+  
+  /* Style pour les paragraphes */
+  p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  }
+  
+  /* Style pour les liens */
+  a {
+  color: #007bff;
+  text-decoration: none;
+  }
+  
+  a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+  }
+  
+  /* Style pour les boutons */
+  a[role="button"] {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 50px;
+  }
+  
+  a[role="button"]:hover {
+  background-color: #0069d9;
+  }
+  
+  /* Style pour les titres de section */
+  h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  }
+  
+  /* Style pour les sections */
+  div {
+  margin-bottom: 40px;
+  }
+  
+  /* Style pour les colonnes */
+  div > div {
+  width: 33.33%;
+  float: left;
+  padding: 0 20px;
+  box-sizing: border-box;
+  }
+  
+  /* Style pour les sections de colonnes */
+  div > div > p {
+  margin-bottom: 10px;
+  }
+  
+  @media screen and (max-width: 768px) {
+  /* Style pour les colonnes sur les écrans plus petits */
+  div > div {
+  width: 100%;
+  float: none;
+  padding: 0;
+  }
+  }
+
+
+  /*pour page de connexion */
+
+  /* Style pour le titre */
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  }
+  
+  /* Style pour le formulaire */
+  form {
+  max-width: 300px;
+  margin: 0 auto;
+  }
+  
+  .form-label {
+  font-weight: bold;
+  }
+  
+  .form-control {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  box-sizing: border-box;
+  font-size: 16px;
+  }
+  
+  .btn-primary {
+  display:  inline-block;
+  width: 50%;
+  padding: 10px;
+  margin-top: 20px;
+  border: none;
+  background-color: blue;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 30px;
+  }
+  
+  form {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center; /* Ajoutez cette ligne pour centrer le bouton */
+    }
+
+  .btn-primary:hover {
+  background-color: blue;
+  }
+  
+  .alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  }
+
+  /*  */
+  /*.navbar-nav.ml-auto {
+    margin-left: auto;
+    }*/
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff; /* couleur de fond de la barre de navigation */
+      border-bottom: 1px solid #ccc; /* bordure inférieure de la barre de navigation */
+      padding: 50px; /* espacement interne de la barre de navigation */
+      height: 45px;   
+    }
+    
+    .navbar img {
+      margin-right: 150px; /* espacement à droite de l'image */
+      width: 150px; /* largeur du logo */
+      height: 100px; /* hauteur du logo */
+      margin-left: 600px;
+      margin-top: 110px;
+      
+    }
+    .navbar .navbar-text {
+      margin-right: 600px; /* espacement à droite du texte */
+      color: #333; /* couleur du texte de la marque de navigation */
+      font-size: 50px; /* taille de police de la marque de navigation */
+      font-weight: bold; /* mettre en gras le texte */
+      /*margin-bottom: -50px; /* déplacement vers le haut du texte */
+      margin-left: auto;
+      position: relative; /* activer la position relative */
+      top: -60px; /* déplacement vers le haut du texte */
+      
+    }
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      color: #333; /* couleur du texte de la marque de navigation */
+    }
+    
+    .navbar-brand img {
+      margin-left: 50px; /* espacement à droite de l'image */
+        
+    }
+    
+    
+    
+    .navbar-nav li {
+      margin-right: 50px; /* espacement entre les liens */
+      
+
+    }
+    
+    
+    .navbar-nav .nav-item {
+      /*margin-bottom: 30px; /* déplacement vers le haut des éléments de la liste */
+      position: relative; /* activer la position relative */
+      top: -140px; /* déplacement vers le haut du texte */
+
+
+    }
+
+    .navbar-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: 800px;
+      font-weight: bold; /* mettre en gras le texte des liens */
+
+    }
+
+
+    /* page d'incription*/
+
+    /* Style pour les labels des champs de formulaire */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Style pour les champs de formulaire */
+input[type=text], input[type=password], input[type=email] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+/* Style pour les messages d'aide */
+p.help {
+  font-style: italic;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+/* Style pour les messages d'erreur */
+p.error {
+  color: red;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+/*code suite page d'acceuil */    
+
+p {
+  font-size: 25px;
+  margin-left: 150px ;
+  margin-right: auto;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.bar {
+  display: inline-block;
+  border-left: 1px solid #000;
+  height: 20px;
+  margin: 0 10px;
+  vertical-align: middle;
+}
+
+.left-aligned-text {
+  font-size: 25px;
+  margin-left: 50px;
+  margin-right: auto;
+  text-align: 50px;
+}
+
+
+/* page d'ajout équipement */
+
+
+
+
+
+
+
+

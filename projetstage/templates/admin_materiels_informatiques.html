@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Liste des matériels informatiques</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Numéro de série</th>
+        <th>Date d'achat</th>
+        <th>date_debut_garantie</th>
+        <th>date_fin_garantie</th>
+        <th>Id utilisateur</th>
+        <th>Id fournisseur</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for materiel_informatique in materiels_informatiques %}
+        <tr>
+          <td>{{ materiel_informatique.nom }}</td>
+          <td>{{ materiel_informatique.description }}</td>
+          <td>{{ materiel_informatique.numero_serie }}</td>
+          <td>{{ materiel_informatique.date_achat }}</td>
+          <td>{{ materiel_informatique.date_debut_garantie }}</td>
+          <td>{{ materiel_informatique.date_fin_garantie }}</td>
+          <td>{{ materiel_informatique.id_utilisateur }}</td>
+          <td>{{ materiel_informatique.id_fournisseur }}</td>
+          <td>
+            <a href="{% url 'modifier_materiel_informatique' materiel_informatique.id %}">Modifier</a>
+            <a href="{% url 'supprimer_materiel_informatique' materiel_informatique.id %}">Supprimer</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'ajouter_materiel_informatique' %}">Ajouter un matériel informatique</a>
+{% endblock %}
+
+

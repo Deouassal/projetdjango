@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html> <html> 
+  <html lang="fr"></html>
+  <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %} "> 
+  <head> 
+  </head> 
+
+  <body> 
+
+{% block content %}
+<h2>Liste des équipements</h2>
+<div style="display: flex; flex-wrap: wrap;">
+  {% for equipement in equipements %}
+  <div style="border: 1px solid black; margin: 10px; padding: 10px;">
+    <h3>{{ equipement.nom }}</h3>
+    <table>
+      <tr>
+        <th>Numéro de série :</th>
+        <td>{{ equipement.numero_serie }}</td>
+      </tr>
+      <tr>
+        <th>Date d'achat :</th>
+        <td>{{ equipement.date_achat }}</td>
+      </tr>
+      <tr>
+        <th>Date de début de garantie :</th>
+        <td>{{ equipement.date_debut_garantie }}</td>
+      </tr>
+      <tr>
+        <th>Date de fin de garantie :</th>
+        <td>{{ equipement.date_fin_garantie }}</td>
+      </tr>
+      <tr>
+        <th>Statut :</th>
+        <td>{{ equipement.statut }}</td>
+      </tr>
+      <tr>
+        <th>Utilisateur :</th>
+        <td>{{ equipement.id_utilisateur.nom }}  {{ equipement.id_utilisateur.prenom }}</td></td>
+      </tr>
+      <tr>
+        <th>Emplacement actuel :</th>
+        <td>{{ equipement.emplacement_actuel }}</td>
+      </tr>
+      <tr>
+        <th>Fournisseur :</th>
+        <td>{{ equipement.id_fournisseur }}</td>
+      </tr>
+    </table>
+    <a href="{% url 'modifier_equipement' equipement.id_equipement %}">Modifier</a>
+    <a href="{% url 'supprimer_equipement' equipement.id_equipement %}">Supprimer</a>
+
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+</body></html>

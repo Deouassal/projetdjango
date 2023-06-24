@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html> <html> 
+<html lang="fr"></html>
+<head> 
+  <link rel="stylesheet" href="{% static 'projetstage/css/demande.css' %} "> 
+  <script src="{% static 'projetstage/js/demande.js' %}"></script>
+
+</head> 
+
+  <body> 
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+  </form>
+{% endblock %}
+
+<body></html>

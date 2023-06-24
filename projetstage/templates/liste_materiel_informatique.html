@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste de matériels informatiques</title>
+    <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %}">
+</head>
+<body>
+    {% block content %}
+    <h2>Liste de matériels informatiques</h2>
+    <div style="display: flex; flex-wrap: wrap;">
+        {% for materiel in materiels_informatiques %}
+        <div style="border: 1px solid black; margin: 10px; padding: 10px;">
+            <h3>{{ materiel.nom }}</h3>
+            <table>
+                <tr>
+                    <th>Description :</th>
+                    <td>{{ materiel.description }}</td>
+                </tr>
+                <tr>
+                    <th>Numéro de série :</th>
+                    <td>{{ materiel.numero_serie }}</td>
+                </tr>
+                <tr>
+                    <th>Date d'achat :</th>
+                    <td>{{ materiel.date_achat }}</td>
+                </tr>
+                <tr>
+                    <th>Date de début de garantie :</th>
+                    <td>{{ materiel.date_debut_garantie }}</td>
+                </tr>
+                <tr>
+                    <th>Date de fin de garantie :</th>
+                    <td>{{ materiel.date_fin_garantie }}</td>
+                </tr>
+                <tr>
+                    <th>Utilisateur :</th>
+                    <td>{{ materiel.id_utilisateur.nom }} {{ materiel.id_utilisateur.prenom }}</td>
+                </tr>
+                <tr>
+                    <th>Fournisseur :</th>
+                    <td>{{ materiel.id_fournisseur }}</td>
+                </tr>
+            </table>
+            <a href="{% url 'modifier_materiel_informatique' materiel.id_materiel_informatique %}">Modifier</a>
+            <a href="{% url 'supprimer_materiel_informatique' materiel.id_materiel_informatique %}">Supprimer</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}
+</body>
+</html>

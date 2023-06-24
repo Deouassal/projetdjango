@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html> <html> 
+  <html lang="fr"></html>
+  <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %} "> 
+  <head> 
+  </head> 
+
+  <body> 
+
+{% block content %}
+<h2>Liste des fournisseurs</h2>
+<div style="display: flex; flex-wrap: wrap;">
+  {% for fournisseur in fournisseurs %}
+  <div style="border: 1px solid black; margin: 10px; padding: 10px;">
+    <h3>{{ fournisseur.nom }} {{ fournisseur.prenom }}</h3>
+    <table>
+      <tr>
+        <th>Localisation :</th>
+        <td>{{ fournisseur.localisation }}</td>
+      </tr>
+      <tr>
+        <th>Téléphone :</th>
+        <td>{{ fournisseur.telephone }}</td>
+      </tr>
+      <tr>
+        <th>Adresse email :</th>
+        <td>{{ fournisseur.adresse_email }}</td>
+      </tr>
+      <tr>
+        <th>Site web :</th>
+        <td>{{ fournisseur.site_web }}</td>
+      </tr>
+      <tr>
+        <th>Type de fournisseur :</th>
+        <td>{{ fournisseur.type_fournisseur }}</td>
+      </tr>
+      <tr>
+        <th>Description :</th>
+        <td>{{ fournisseur.description }}</td>
+      </tr>
+    </table>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+</body></html>

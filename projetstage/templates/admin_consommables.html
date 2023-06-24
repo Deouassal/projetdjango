@@ -1,0 +1,29 @@
+{% block content %}
+  <h1>Liste des consommables</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Quantité</th>
+        <th>Id utilisateur</th>
+        <th>Id fournisseur</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for consommable in consommables %}
+        <tr>
+          <td>{{ consommable.nom }}</td>
+          <td>{{ consommable.description }}</td>
+          <td>{{ consommable.quantite }}</td>
+          <td>{{ consommable.id_utilisateur }}</td>
+          <td>{{ consommable.id_fournisseur }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <form action="{% url 'ajouter_consommable' %}">
+    <button type="submit">Ajouter un consommable</button>
+  </form>
+{% endblock %}

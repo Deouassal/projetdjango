@@ -1,0 +1,12 @@
+{% block content %}
+  <h2>Liste des affectations</h2>
+  {% if affectations %}
+    <ul>
+      {% for affectation in affectations %}
+        <li>{{ affectation.id_utilisateur }} - {{ affectation.type_equipement }} - {{ affectation.date_affectation }} - {{ affectation.date_retour }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Aucune affectation enregistrée pour le moment.</p>
+  {% endif %}
+{% endblock %}

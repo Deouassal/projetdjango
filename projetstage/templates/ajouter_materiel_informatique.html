@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ajouter un matériel informatique</title>
+  <link rel="stylesheet" href="{% static 'projetstage/css/équipement.css' %}">
+</head>
+<body>
+  {% block content %}
+    <h1>Ajouter un matériel informatique</h1>
+    <form method="post">
+      {% csrf_token %}
+      <label for="nom">Nom :</label>
+      <input type="text" id="nom" name="nom"><br>
+      <label for="description">Description :</label>
+      <input type="text" id="description" name="description"><br>
+      <label for="numero_serie">Numéro de série :</label>
+      <input type="text" id="numero_serie" name="numero_serie"><br>
+      <label for="date_achat">Date d'achat :</label>
+      <input type="date" id="date_achat" name="date_achat"><br>
+      <label for="date_debut_garantie">Date début garantie :</label>
+      <input type="date" id="date_debut_garantie" name="date_debut_garantie"><br>
+      <label for="date_fin_garantie">Date fin garantie :</label>
+      <input type="date" id="date_fin_garantie" name="date_fin_garantie"><br>
+      <label for="id_utilisateur">Id utilisateur :</label>
+      <input type="text" id="id_utilisateur" name="id_utilisateur"><br>
+      <label for="id_fournisseur">Id fournisseur :</label>
+      <input type="text" id="id_fournisseur" name="id_fournisseur"><br>
+      <input type="submit" value="Ajouter">
+    </form>
+    <script src="{% static 'projetstage/js/ajout.js' %}"></script>
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% load static %} <!-- Ajout de la directive pour charger les tags static -->
+
+<!DOCTYPE html> <html> 
+  <html lang="fr"></html>
+  <head> 
+    <title>{% block title %}E-GESTION{% endblock %}</title> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{% static 'projetstage/css/page.css' %} "> 
+  </head> 
+  <body> 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"> 
+    <div class="container"> <img src="{% static 'projetstage/img/logo_DGI.png' %}" alt="Logo de l'application" width="70" height="70">
+     <span class="navbar-text">E-GESTION</span>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Connexion</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Inscription</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  {% block content %}
+  {% endblock %}
+</div>
+</body> </html>

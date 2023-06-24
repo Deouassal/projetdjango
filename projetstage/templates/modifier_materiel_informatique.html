@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html> <html> 
+  <html lang="fr"></html>
+  <head> 
+  <link rel="stylesheet" href="{% static 'projetstage/css/modification.css' %} "> 
+  </head> 
+
+  <body> 
+
+{% block content %}
+  <h1>Modifier le matériel informatique </h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Modifier</button>
+  </form>
+
+{% endblock %}
+</body> 
+</html>
