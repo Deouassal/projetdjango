@@ -13,13 +13,14 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from . import forms
-from .forms import InscriptionAdminForm, ConsommablesForm, SupprimerConsommableForm, DemandeForm, SupprimerDemandeForm, LoginForm
+from .forms import InscriptionAdminForm, ConsommablesForm, SupprimerConsommableForm, DemandeForm, SupprimerDemandeForm
 #from django.contrib.auth.decorators import login_required
 from .models import Consommables, Commande, Affectations, Demandes
 from .models import Equipements , Materiels_Informatiques
-from .forms import AffectationForm, DemandeForm, AjouterConsommableForm,AjouterMaterielForm, EquipementForm, SupprimerMaterielInformatiqueForm, MaterielsInformatiquesForm
+from .forms import AffectationForm, DemandeForm, AjouterConsommableForm,AjouterMaterielForm, EquipementForm, SupprimerMaterielInformatiqueForm, MaterielsInformatiquesForm,  UtilisateursLoginForm
 from django.shortcuts import render, get_object_or_404, redirect
 #from django.contrib.auth.views import LoginView
+from django.contrib.auth.hashers import check_password
 
 
 
@@ -473,30 +474,83 @@ def vue_deconnexion(request):
     #fields = {'adresse_email': 'email', 'mot_de_passe': 'password'}
 
 
+#def login_view(request):
+    #if request.method == 'POST':
+     #   form = LoginForm(request.POST)
+      #  if form.is_valid():
+       #     adresse_email = form.cleaned_data['adresse_email']
+         #   mot_de_passe = form.cleaned_data['mot_de_passe']
+          #  user = authenticate(request, username=adresse_email, password=mot_de_passe)
+           # if user is not None:
+            #    login(request, user)
+             #   return redirect('home')
+            #else:
+             #   form.add_error(None, "L'adresse e-mail ou le mot de passe est incorrect.")
+    #else:
+     #   form = LoginForm()
+    #return render(request, 'login.html', {'form': form})
+
+
+
 def login_view(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            adresse_email = form.cleaned_data['adresse_email']
-            mot_de_passe = form.cleaned_data['mot_de_passe']
-            user = authenticate(request, username=adresse_email, password=mot_de_passe)
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('home')
-            else:
-                form.add_error(None, "L'adresse e-mail ou le mot de passe est incorrect.")
     else:
-        form = LoginForm()
+        form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
-def login_user(request):
-    if request.method == "POST":
-        adresse_email = request.POST.get('adresse_email')
-        mot_de_passe = request.POST.get('mot_de_passe')
-        user = authenticate(request, adresse_email=adresse_email, password=mot_de_passe)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(request, 'Adresse email ou mot de passe incorrect.')
+
+#def login_user(request):
+ #   if request.method == "POST":
+  #      adresse_email = request.POST.get('adresse_email')
+   #     mot_de_passe = request.POST.get('mot_de_passe')
+    #    user = authenticate(request, adresse_email=adresse_email, password=mot_de_passe)
+     #   if user is not None:
+         #  login(request, user)
+          #  return redirect('home')
+        #else:
+         #   messages.error(request, 'Adresse email ou mot de passe incorrect.')
+    #return render(request, 'login.html')
+
+
+#def user_login(request):
+ #   if request.method == 'POST':
+  #      form = UtilisateursLoginForm(request, data=request.POST)
+   #     if form.is_valid():
+    #        username = form.cleaned_data.get('username')
+     #       password = form.cleaned_data.get('password')
+      #      user = authenticate(request, username=username, password=password)
+       #     if user is not None:
+        #        login(request, user)
+         #       return redirect('home')
+    #else:
+     #   form = UtilisateursLoginForm(request)
+    #return render(request, 'login.html', {'form': form})
+
+def login(request):
+    if request.method == 'POST':
+        # Récupérer le nom d'utilisateur et le mot de passe soumis par l'utilisateur
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Vérifier que le nom d'utilisateur et le mot de passe ne sont pas vides
+        if username != '' and password != '':
+            # Vérifier les informations d'identification de l'utilisateur dans la base de données
+            try:
+                utilisateur = Utilisateurs.objects.get(adresse_email=username)
+                if check_password(password, utilisateur.mot_de_passe):
+                    # Si les informations d'identification sont valides, connecter l'utilisateur et rediriger vers la liste des consommables
+                    request.session['utilisateur_id'] = utilisateur.id_utilisateur
+                    return redirect('liste_consommables')
+            except Utilisateurs.DoesNotExist:
+                pass
+        
+    # Si la méthode de la requête est GET, afficher simplement la page de connexion
     return render(request, 'login.html')

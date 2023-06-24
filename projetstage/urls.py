@@ -11,7 +11,7 @@ from .views import liste_fournisseurs, affectations
 from .views import liste_equipements, liste_materiel_informatique
 from .views import liste_consommables
 from .views import home , login_view
-from projetstage.views import login_user
+#from projetstage.views import login_user
 #from django.contrib.auth.views import LoginView # Importez la vue LoginView
 #from .views import vueLoginView
 
@@ -61,7 +61,10 @@ urlpatterns = [
     #path('home/', home, name='home'),
     #path('login/', vueLoginView.as_view(), name='login'),
     #path('login/', views.login_user, name='login'),
-    path('login/', login_view, name='login'),
+    #path('login/', login_view, name='login'),
+    #path('login/', include('login.urls')),
+    #path('login/', views.user_login, name='login'),
+    path('login/', views.login, name='login'),
 
     ]
 

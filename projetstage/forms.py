@@ -139,23 +139,23 @@ class InscriptionAdminForm(UserCreationForm):
                 raise forms.ValidationError("Le numéro de téléphone doit être un entier.")
         return numero_telephone
 
-class ConnexionAdminForm(forms.Form):
-    adresse_email = forms.EmailField(max_length=254, required=True)
-    mot_de_passe = forms.CharField(widget=forms.PasswordInput, required=True)
+#class ConnexionAdminForm(forms.Form):
+ #   adresse_email = forms.EmailField(max_length=254, required=True)
+ #   mot_de_passe = forms.CharField(widget=forms.PasswordInput, required=True)
 
-    def clean(self):
-        cleaned_data = super().clean()
-        adresse_email = cleaned_data.get("adresse_email")
-        mot_de_passe = cleaned_data.get("mot_de_passe")
-        if adresse_email and mot_de_passe:
-            administrateur = authenticate(request=None, username=adresse_email, password=mot_de_passe)
-            
-            if not administrateur:
-                raise ValidationError("L'adresse e-mail ou le mot de passe est incorrect.")
-            elif not admin.check_password(mot_de_passe):
-                raise ValidationError("L'adresse e-mail ou le mot de passe est incorrect.")
+ #   def clean(self):
+  #      cleaned_data = super().clean()
+   #     adresse_email = cleaned_data.get("adresse_email")
+    #    mot_de_passe = cleaned_data.get("mot_de_passe")
+     #   if adresse_email and mot_de_passe:
+      #      administrateur = authenticate(request=None, username=adresse_email, password=mot_de_passe)
+          
+        #    if not administrateur:
+         #       raise ValidationError("L'adresse e-mail ou le mot de passe est incorrect.")
+          #  elif not admin.check_password(mot_de_passe):
+           #     raise ValidationError("L'adresse e-mail ou le mot de passe est incorrect.")
 
-        return cleaned_data
+        #return cleaned_data
 
 
 class AjouterEquipementForm(forms.ModelForm):
@@ -281,6 +281,20 @@ class DemandeForm(forms.ModelForm):
 class SupprimerDemandeForm(forms.Form):
     confirm = forms.BooleanField(label='Confirmer la suppression', required=True)
 
-class LoginForm(forms.Form):
-    adresse_email = forms.EmailField(label='Adresse e-mail', max_length=254)
-    mot_de_passe = forms.CharField(label='Mot de passe', widget=forms.PasswordInput)
+#class LoginForm(forms.Form):
+ #   adresse_email = forms.EmailField(label='Adresse e-mail', max_length=254)
+  #  mot_de_passe = forms.CharField(label='Mot de passe', widget=forms.PasswordInput)
+
+
+class UtilisateursLoginForm(AuthenticationForm):
+    class Meta:
+        model = Utilisateurs
+        fields = ['adresse_email', 'mot_de_passe']
+        labels = {
+            'adresse_email': 'Adresse email',
+            'mot_de_passe': 'Mot de passe',
+        }
+        widgets = {
+            'adresse_email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'mot_de_passe': forms.PasswordInput(attrs={'class': 'form-control'}),
+        }
