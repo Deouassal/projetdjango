@@ -1,10 +1,21 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html> <html> 
+  <html lang="fr"></html>
+  <head> 
+  <link rel="stylesheet" href="{% static 'projetstage/css/admin.css' %} "> 
+  </head> 
+
+  <body> 
+
 
 {% block content %}
-  <h1>Inscription administrateur</h1>
+  <h1>Prêt à gérer vos équipements, consommables et matériels informatiques ? Inscrivez-vous dès maintenant pour commencer.</h1>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">S'inscrire</button>
+    <button type="submit" class="btn btn-primary">S'inscrire</button>
   </form>
 {% endblock %}
+
+<body> </html>
+

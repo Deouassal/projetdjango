@@ -1,0 +1,51 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des utilisateurs</title>
+  <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>Liste des utilisateurs</h1>
+    {% if utilisateurs %}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Numéro d'utilisateur</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Adresse e-mail</th>
+            <th>Numéro de téléphone</th>
+            <th>Service</th>
+            <th>Poste</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for utilisateur in utilisateurs %}
+          <tr>
+            
+            <td>{{utilisateur.id_utilisateur}}</td>
+            <td>{{utilisateur.nom}}</td>
+            <td>{{utilisateur.prenom}}</td>
+            <td>{{utilisateur.adresse_email}}</td>
+            <td>{{utilisateur.numero_telephone}}</td>
+            <td>{{utilisateur.service}}</td>
+            <td>{{utilisateur.poste}}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7">Aucun utilisateur n'a été enregistré pour le moment.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>Aucun utilisateur n'a été enregistré pour le moment.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

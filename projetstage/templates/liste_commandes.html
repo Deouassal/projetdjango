@@ -1,66 +1,78 @@
-{% load static %}
-<!DOCTYPE html> <html> 
-  <html lang="fr"></html>
-  <link rel="stylesheet" href="{% static 'projetstage/css/enregistrer_liste.css' %} "> 
-  <head> 
-  </head> 
+{% load static%}
 
-  <body> 
-
-
-{% block content %}
-  <h1>Liste des commandes</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Date de commande</th>
-        <th>Articles commandés</th>
-        <th>Quantité commandée</th>
-        <th>Statut de la commande</th>
-        <th>Fournisseur</th>
-        <th>Date de livraison prévue</th>
-        <th>Equipement</th>
-        <th>Consommable</th>
-        <th>Matériel informatique</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for commande in commandes %}
-        <tr>
-          <td>{{commande.date_commande}}</td>
-          <td>{{commande.articles_commandes}}</td>
-          <td>{{commande.quantite_commandee}}</td>
-          <td>{{commande.statut_commande}}</td>
-          <td>{{commande.id_fournisseur.nom}}</td>
-          <td>{{commande.date_livraison_prevue}}</td>
-          <td>
-            {% if commande.id_equipement %}
-              {{ commande.id_equipement.nom }}
-            {% else %}
-              -
-            {% endif %}
-          </td>
-          <td>
-            {% if commande.id_consommable %}
-              {{ commande.id_consommable.nom }}
-            {% else %}
-              -
-            {% endif %}
-          </td>
-          <td>
-            {% if commande.id_materiel_informatique %}
-              {{ commande.id_materiel_informatique.nom }}
-            {% else %}
-              -
-            {% endif %}
-          </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="9">Aucune commande n'a été enregistrée pour le moment.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% endblock %}
-</body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des commandes</title>
+  <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>Liste des commandes</h1>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Numéro de commande</th>
+            <th>Date de commande</th>
+            <th>Articles commandés</th>
+            <th>Quantité commandée</th>
+            <th>Statut de la commande</th>
+            <th>Fournisseur</th>
+            <th>Date de livraison prévue</th>
+            <th>Date de livraison réelle</th>
+            <!--<th>Équipement</th>-->
+            <!--<th>Consommable</th>-->
+            <!--<th>Matériel informatique</th>-->
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for commande in commandes %}
+          <tr>
+            <td>{{commande.id_commande}}</td>
+            <td>{{commande.date_commande}}</td>
+            <td>{{commande.articles_commandes}}</td>
+            <td>{{commande.quantite_commandee}}</td>
+            <td>{{commande.statut_commande}}</td>
+            <td>{{commande.id_fournisseur.nom}}</td>
+            <td>{{commande.date_livraison_prevue}}</td>
+            <td>{{commande.date_livraison_reelle}}</td>
+            <!--<td>-->
+              <!--{% if commande.id_equipement %}-->
+              <!--{{ commande.id_equipement.nom }}-->
+              <!--{% else %}-->
+             <!-- --->
+              <!--{% endif %}-->
+            <!--</td>-->
+            <!--<td>-->
+              <!--{% if commande.id_consommable %}-->
+              <!--{{ commande.id_consommable.nom }}-->
+              <!--{% else %}-->
+              <!----->
+              <!--{% endif %}-->
+            <!--</td>-->
+            <!--<td>-->
+              <!--{% if commande.id_materiel_informatique %}-->
+              <!--{{ commande.id_materiel_informatique.nom }}-->
+             <!-- {% else %}-->
+              <!----->
+             <!-- {% endif %}-->
+            <!--</td>-->
+            <td>
+              <a href="{% url 'modifier_commande' id_commande=commande.id_commande %}">Modifier</a>
+              <a href="{% url 'supprimer_commande' id_commande=commande.id_commande %}">Supprimer</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="11">Aucune commande n'a été enregistrée pour le moment.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

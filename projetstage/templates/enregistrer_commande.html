@@ -38,33 +38,7 @@
       <label for="date_livraison_prevue">Date de livraison prévue :</label>
       <input type="date" name="date_livraison_prevue" id="date_livraison_prevue">
     </div>
-    <div>
-      <label for="id_equipement">Equipement :</label>
-      <select name="id_equipement" id="id_equipement">
-        <option value="">-- Sélectionner un équipement --</option>
-        {% for equipement in equipements %}
-          <option value="{{equipement.id}}">{{equipement.nom}}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div>
-      <label for="id_consommable">Consommable :</label>
-      <select name="id_consommable" id="id_consommable">
-        <option value="">-- Sélectionner un consommable --</option>
-        {% for consommable in consommables %}
-          <option value="{{consommable.id}}">{{consommable.nom}}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div>
-      <label for="id_materiel_informatique">Matériel informatique :</label>
-      <select name="id_materiel_informatique" id="id_materiel_informatique">
-        <option value="">-- Sélectionner un matériel informatique --</option>
-        {% for materiel_informatique in materiels_informatiques %}
-          <option value="{{materiel_informatique.id}}">{{materiel_informatique.nom}}</option>
-        {% endfor %}
-      </select>
-    </div>
+
     <button type="submit">Enregistrer</button>
   </form>
  

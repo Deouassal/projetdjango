@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tableau de bord</title>
+  <link rel="stylesheet" href="{% static 'projetstage/css/tableau_de_bord.css' %}">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="{% static 'projetstage/img/logo_DGI.png' %}" alt="Logo de l'application">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#">Profil</a></li>
+        <li><a href="#">Paramètres</a></li>
+        <li><a href="{% url 'deconnexion_utilisateur' %}">Se déconnecter</a></li>
+    </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Tableau de bord</h1>
+    <div class="cards">
+      <div class="card">
+        <h2>Consommables</h2>
+        <a href="{% url 'liste_consommables' %}" class="button">Voir la liste</a>
+      </div>
+      <div class="card">
+        <h2>Demandes</h2>
+        <a href="{% url 'liste_demandes' %}" class="button">Voir la liste</a>
+        <a href="{% url 'demander_equipement' %}" class="button">Effectuer une demande</a>
+      </div>
+      <div class="card">
+        <h2>Équipements</h2>
+        <a href="{% url 'liste_equipements' %}" class="button">Voir la liste</a>
+      </div>
+      <div class="card">
+        <h2>Matériels informatiques</h2>
+        <a href="{% url 'liste_materiel_informatique' %}" class="button">Voir la liste</a>
+      </div>
+  </main>
+  <footer>
+    <p>© Juin 2023 - DEOUASSAL Togdji Exaucé</p>
+  </footer>
+</body>
+</html>

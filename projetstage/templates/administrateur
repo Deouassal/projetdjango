@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Bienvenue sur le tableau de bord de l'administrateur</h1>
+  <p>Ici, vous pouvez gérer les différentes tables de l'application.</p>
+{% endblock %}
+
+
+

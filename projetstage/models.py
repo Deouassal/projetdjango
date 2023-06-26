@@ -35,7 +35,9 @@ class Utilisateurs(models.Model):
 
     def set_password(self, raw_password):
         self.mot_de_passe = make_password(raw_password)
-
+    
+    def __str__(self):
+        return f"{self.nom} {self.prenom}"
 # Table Fournisseurs
 class Fournisseurs(models.Model):
 
@@ -72,9 +74,10 @@ class Fournisseurs(models.Model):
                 raise ValidationError("Le numéro de téléphone doit contenir uniquement des chiffres.")
             if telephone_int < 8:
                 raise ValidationError("Le numéro de téléphone doit avoir au moins 8 chiffres.")
-
+    #def str(self):
+        #return self.nom + ' ' + self.prenom
     def __str__(self):
-        return self.nom
+        return f"{self.nom} {self.prenom}"
 
 
 
@@ -102,7 +105,8 @@ class Equipements(models.Model):
 
     def str(self):
         return self.nom
-
+    def __str__(self):
+        return self.nom
 # Table Consommables
 class Consommables(models.Model):
 
@@ -121,7 +125,8 @@ class Consommables(models.Model):
 
     def str(self):
         return self.nom
-
+    def __str__(self):
+        return self.nom
 # Table MaterielsInformatiques
 class Materiels_Informatiques(models.Model):
 
@@ -144,7 +149,8 @@ class Materiels_Informatiques(models.Model):
 
     def str(self):
         return f"{self.nom} ({self.numero_serie})"
-
+    def __str__(self):
+        return self.nom
 # Table Administrateur
 
 class administrateur(models.Model):
@@ -154,7 +160,6 @@ class administrateur(models.Model):
 
     id_administrateur = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=50)
-    USERNAME_FIELD = 'nom' #ou le nom du champ qui contient le nom d'utilisateur
 
     prénom = models.CharField(max_length=50)
     adresse_email = models.EmailField(max_length=254, unique=True)
@@ -166,9 +171,7 @@ class administrateur(models.Model):
         )
     ])
     autorisations = models.TextField(max_length=50)
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
-    USERNAME_FIELD = 'adresse_email'
+
 
 
     def __str__(self):

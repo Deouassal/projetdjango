@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Supprimer une commande</title>
+  <link rel="stylesheet" href="{% static 'projetstage/css/suppression.css' %}">
+</head>
+<body>
+ <div class="container">
+  <h1>Supprimer la commande "{{ commande.id_commande }}"</h1>
+  <p>Êtes-vous sûr de vouloir supprimer cette commande?</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Supprimer">
+  </form> 
+  <a href="{% url 'liste_commandes' %}">Annuler</a>
+ </div>
+</body>
+</html>

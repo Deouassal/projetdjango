@@ -1,0 +1,96 @@
+/* Style pour le header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style pour le logo */
+  .logo img {
+    width: 100px;
+  }
+  
+  /* Style pour la nav */
+  nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Style pour les liens de la nav */
+  nav a {
+    display: block;
+    padding: 1rem;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  /* Style pour les liens au survol de la souris */
+  nav a:hover {
+    color: #666;
+  }
+  
+  /* Style pour le titre du tableau de bord */
+  main h1 {
+    font-size: 2.5rem;
+    margin: 3rem 0 2rem;
+    text-align: center;
+  }
+  
+  /* Style pour les cartes */
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 -1rem;
+  }
+  
+  /* Style pour les cartes individuelles */
+  .card {
+    flex: 0 0 calc(25% - 2rem);
+    margin: 1rem;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style pour le titre des cartes */
+  .card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Style pour le compte des cartes */
+  .card .count {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Style pour la description des cartes */
+  .card .description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Style pour le bouton des cartes */
+  .card .button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Style pour le bouton des cartes au survol de la souris */
+  .card .button:hover {
+    background-color: #555;
+  }

@@ -3,14 +3,14 @@ from projetstage.models import Utilisateurs
 from django.core.validators import RegexValidator
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
-from projetstage.models import administrateur
 from django.contrib.auth.forms import UserCreationForm
 import re
 from .models import Equipements, Materiels_Informatiques
-from .models import Fournisseurs, Demandes 
-from .models import Materiels_Informatiques
+from .models import Fournisseurs, Demandes , Commande
+from .models import Materiels_Informatiques, administrateur
 from .models import Consommables, Affectations
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password , make_password
+
 
 
 
@@ -102,42 +102,6 @@ class ConnexionForm(forms.Form):
             except Utilisateurs.DoesNotExist:
                 raise forms.ValidationError("Nom d'utilisateur ou mot de passe incorrect.")
         return cleaned_data
-#page admin 
-
-class InscriptionAdminForm(UserCreationForm):
-    nom = forms.CharField(max_length=50, required=True)
-    prénom = forms.CharField(max_length=50, required=True)
-    adresse_email = forms.EmailField(max_length=254, required=True)
-    numero_telephone = forms.CharField(max_length=20, required=True)
-    autorisations = forms.CharField(max_length=50, required=True)
-
-    class Meta:
-        model = administrateur
-        fields = ['nom', 'prénom', 'adresse_email', 'numero_telephone', 'mot_de_passe', 'autorisations']
-
-    def __init__(self, *args, **kwargs):
-        super(InscriptionAdminForm, self).__init__(*args, **kwargs)
-        self.fields['mot_de_passe'].label = 'Mot de Passe'
-
-    def clean_adresse_email(self):
-        adresse_email = self.cleaned_data['adresse_email']
-        if administrateur.objects.filter(adresse_email=adresse_email).exists():
-            raise ValidationError("Un administrateur avec cette adresse e-mail existe déjà.")
-        return adresse_email
-
-
-    def clean_numero_telephone(self):
-        numero_telephone = self.cleaned_data.get('numero_telephone')
-        if not isinstance(numero_telephone, str):
-            raise forms.ValidationError("Le numéro de téléphone doit être une chaîne de caractères.")
-        elif len(numero_telephone) < 8:
-            raise forms.ValidationError("Le numéro de téléphone doit avoir au moins 8 chiffres.")
-        else:
-            try:
-                int(numero_telephone)
-            except ValueError:
-                raise forms.ValidationError("Le numéro de téléphone doit être un entier.")
-        return numero_telephone
 
 #class ConnexionAdminForm(forms.Form):
  #   adresse_email = forms.EmailField(max_length=254, required=True)
@@ -177,7 +141,7 @@ class AjouterEquipementForm(forms.ModelForm):
 class FournisseurForm(forms.ModelForm):
     class Meta:
         model = Fournisseurs
-        fields = ['nom', 'prenom', 'localisation', 'telephone', 'adresse_email', 'site_web', 'type_fournisseur', 'description']
+        fields = ['nom', 'prenom', 'localisation', 'telephone', 'type_fournisseur', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }
@@ -219,10 +183,10 @@ class AffectationForm(forms.ModelForm):
             'id_utilisateur': 'Utilisateur',
         }       
 
-class DemandeForm(forms.ModelForm):
-    class Meta:
-        model = Demandes
-        fields = ['id_utilisateur', 'description_demande', 'type_demande', 'id_équipement', 'id_consommable', 'id_materiel_informatique', 'coût_reparation']
+#class DemandeForm(forms.ModelForm):
+   # class Meta:
+       #model = Demandes
+        #fields = ['description_demande', 'type_demande', 'id_équipement', 'id_consommable', 'id_materiel_informatique', 'coût_reparation']
 
 class AjouterMaterielForm(forms.ModelForm):
     class Meta:
@@ -275,7 +239,7 @@ class SupprimerConsommableForm(forms.Form):
 class DemandeForm(forms.ModelForm):
     class Meta:
         model = Demandes
-        fields = ['type_demande', 'description_demande', 'id_utilisateur', 'id_équipement', 'id_consommable', 'id_materiel_informatique', 'état_demande', 'coût_reparation']
+        fields = ['id_utilisateur','type_demande', 'description_demande', 'id_équipement', 'id_consommable', 'id_materiel_informatique']
 
 
 class SupprimerDemandeForm(forms.Form):
@@ -298,3 +262,85 @@ class UtilisateursLoginForm(AuthenticationForm):
             'adresse_email': forms.EmailInput(attrs={'class': 'form-control'}),
             'mot_de_passe': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
+
+
+
+# formulaire admin
+
+class InscriptionAdminForm(forms.ModelForm):
+    mot_de_passe = forms.CharField(label='Mot de passe', widget=forms.PasswordInput, validators=[
+        RegexValidator(
+            regex='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+            message="Le mot de passe doit contenir au moins 8 caractères, y compris des lettres majuscules et minuscules, des chiffres et des caractères spéciaux."
+        )
+    ])
+    numero_telephone = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre numéro de téléphone'})
+    )
+
+    def clean_numero_telephone(self):
+        numero_telephone = self.cleaned_data.get('numero_telephone')
+        if len(numero_telephone) < 8:
+            raise forms.ValidationError("Le numéro de téléphone doit avoir au moins 8 chiffres.")
+        return numero_telephone
+    class Meta:
+        model = administrateur
+        fields = ('nom', 'prénom', 'adresse_email', 'numero_telephone', 'mot_de_passe', 'autorisations')
+        labels = {
+            'nom': 'Nom',
+            'prénom': 'prénom',
+            'adresse_email': 'Adresse email',
+            'numero_telephone': 'Numéro de téléphone',
+            'mot_de_passe': 'Mot de passe',
+            'autorisations': 'autorisations',
+
+        }
+        help_texts = {
+             'nom': forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre nom'})),
+             'prenom': forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre prénom'})),
+             'adresse_email': forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre adresse email'})),
+             'numero_telephone': forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre numéro de téléphone'})),
+             'autorisations': forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Vous êtes autorisés en tant que admin à ajouter, modifier et supprimer un élément'})),
+        }
+            
+        error_messages = {
+            'adresse_email': {
+                'unique': "Un administrateur  avec cette adresse email existe déjà."
+            }
+        }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.password = make_password(self.cleaned_data["mot_de_passe"])
+        if commit:
+            user.save()
+        return user
+
+class CommandeForm(forms.ModelForm):
+    class Meta:
+        model = Commande
+        fields = ['date_commande', 'articles_commandes', 'quantite_commandee', 'statut_commande', 'id_fournisseur', 'date_livraison_prevue', 'date_livraison_reelle', ]
+
+
+# formulaire fournisseur 
+#class FournisseurForm(forms.ModelForm):
+ #   class Meta:
+ #       model = Fournisseurs
+  #      fields = ['nom', 'prenom', 'localisation', 'telephone', 'adresse_email', 'site_web', 'type_fournisseur', 'description']
+   #     widgets = {
+    #        'description': forms.Textarea(attrs={'rows': 3}),
+     #   }
+
+
+class ModifierFournisseurForm(forms.ModelForm):
+    class Meta:
+        model = Fournisseurs
+        fields = ['nom', 'prenom', 'localisation', 'telephone', 'type_fournisseur', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+        }
+
+
+
+
+

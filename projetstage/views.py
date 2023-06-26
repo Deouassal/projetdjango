@@ -4,8 +4,9 @@ from django.contrib.auth import login as auth_login
 from .forms import SignUpForm , ConnexionForm
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import logout
 from projetstage.models import administrateur
-from .forms import AjouterEquipementForm
+from .forms import AjouterEquipementForm, CommandeForm
 from .models import Fournisseurs
 from .forms import FournisseurForm
 from .models import Utilisateurs
@@ -13,14 +14,16 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from . import forms
-from .forms import InscriptionAdminForm, ConsommablesForm, SupprimerConsommableForm, DemandeForm, SupprimerDemandeForm
+from .forms import InscriptionAdminForm, ConsommablesForm, SupprimerConsommableForm, DemandeForm, SupprimerDemandeForm, InscriptionAdminForm
 #from django.contrib.auth.decorators import login_required
-from .models import Consommables, Commande, Affectations, Demandes
+from .models import Consommables, Commande, Affectations, Demandes , administrateur
 from .models import Equipements , Materiels_Informatiques
 from .forms import AffectationForm, DemandeForm, AjouterConsommableForm,AjouterMaterielForm, EquipementForm, SupprimerMaterielInformatiqueForm, MaterielsInformatiquesForm,  UtilisateursLoginForm
 from django.shortcuts import render, get_object_or_404, redirect
 #from django.contrib.auth.views import LoginView
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
+from datetime import datetime
+from .forms import FournisseurForm , ModifierFournisseurForm
 
 
 
@@ -282,29 +285,56 @@ def affecter_equipement(request, demande_id):
         form = AffectationForm()
     return render(request, 'affecter_equipement.html', {'form': form, 'demande': demande})
 
-# Enregister commande 
+# Vue enregistrer commande 
 def enregistrer_commande(request):
     if request.method == 'POST':
         date_commande = request.POST['date_commande']
-        articles_commandes = request.POST.get('articles_commandes')
-        quantite_commandee = request.POST.get('quantite_commandee')
-        statut_commande = request.POST.get('statut_commande')
+        articles_commandes = request.POST['articles_commandes']
+        quantite_commandee = request.POST['quantite_commandee']
+        statut_commande = request.POST['statut_commande']
         id_fournisseur = request.POST.get('id_fournisseur')
         date_livraison_prevue = request.POST['date_livraison_prevue']
+        #date_livraison_reelle = request.POST['date_livraison_reelle']
+        #try:
+         #   date_livraison_reelle = datetime.strptime(date_livraison_reelle, '%Y-%m-%d').date().strftime('%Y-%m-%d')
+        #except ValueError:
+
+    # La date n'a pas le format attendu
+           #date_livraison_reelle = None
         id_equipement = request.POST.get('id_equipement')
         id_consommable = request.POST.get('id_consommable')
         id_materiel_informatique = request.POST.get('id_materiel_informatique')
+
+        if id_fournisseur and id_fournisseur.strip().isdigit():
+            fournisseur = Fournisseurs.objects.get(pk=int(id_fournisseur))
+        else:
+            fournisseur = None
+
+        if id_equipement and id_equipement.strip().isdigit():
+            equipement = Equipements.objects.get(pk=int(id_equipement))
+        else:
+            equipement = None
+
+        if id_consommable and id_consommable.strip().isdigit():
+            consommable = Consommables.objects.get(pk=int(id_consommable))
+        else:
+            consommable = None
+
+        if id_materiel_informatique and id_materiel_informatique.strip().isdigit():
+            materiel_informatique = Materiels_Informatiques.objects.get(pk=int(id_materiel_informatique))
+        else:
+            materiel_informatique = None
 
         commande = Commande(
             date_commande=date_commande,
             articles_commandes=articles_commandes,
             quantite_commandee=quantite_commandee,
             statut_commande=statut_commande,
-            id_fournisseur_id=id_fournisseur,
+            id_fournisseur=fournisseur,
             date_livraison_prevue=date_livraison_prevue,
-            id_equipement_id=id_equipement,
-            id_consommable_id=id_consommable,
-            id_materiel_informatique_id=id_materiel_informatique
+            id_equipement=equipement,
+            id_consommable=consommable,
+            id_materiel_informatique=materiel_informatique
         )
         commande.save()
 
@@ -314,7 +344,9 @@ def enregistrer_commande(request):
         equipements = Equipements.objects.all()
         consommables = Consommables.objects.all()
         materiels_informatiques = Materiels_Informatiques.objects.all()
-        return render(request, 'enregistrer_commande.html', {'fournisseurs': fournisseurs, 'equipements': equipements, 'consommables': consommables, 'materiels_informatiques': materiels_informatiques})
+        context = {'fournisseurs': fournisseurs, 'equipements': equipements, 'consommables': consommables, 'materiels_informatiques': materiels_informatiques}
+        return render(request, 'enregistrer_commande.html', context)
+
 #vue liste commande 
 def liste_commandes(request):
     commandes = Commande.objects.all()
@@ -323,6 +355,7 @@ def affectations(request):
     affectations = Affectations.objects.all()
     return render(request, 'liste_affectations.html', {'affectations': affectations})
  
+# 
 def demander_equipement(request):
     if request.method == 'POST':
         form = DemandeForm(request.POST)
@@ -333,6 +366,11 @@ def demander_equipement(request):
         form = DemandeForm()
     return render(request, 'demander_equipement.html', {'form': form})
 
+def liste_demandes(request):
+    demandes = Demandes.objects.all()
+    return render(request, 'liste_demandes.html', {'demandes': demandes})
+
+#
 def liste_demandes(request):
     demandes = Demandes.objects.all()
     return render(request, 'liste_demandes.html', {'demandes': demandes})
@@ -450,24 +488,6 @@ def supprimer_demande(request, id_demande):
     return render(request, 'supprimer_demande.html', {'supprimer_form': supprimer_form, 'demande': demande})
 
 
-def vue_connexion(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            # Rediriger vers la page de destination après la connexion réussie
-            return redirect('demandes')
-        else:
-            # Afficher un message d'erreur si la connexion a échoué
-            messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
-    return render(request, 'connexion.html')
-
-def vue_deconnexion(request):
-    logout(request)
-    return redirect('connexion')
-
 #
 #class vueLoginView(LoginView):
     #template_name = 'login.html'
@@ -492,47 +512,20 @@ def vue_deconnexion(request):
 
 
 
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
-
-
-#def login_user(request):
- #   if request.method == "POST":
-  #      adresse_email = request.POST.get('adresse_email')
-   #     mot_de_passe = request.POST.get('mot_de_passe')
-    #    user = authenticate(request, adresse_email=adresse_email, password=mot_de_passe)
-     #   if user is not None:
-         #  login(request, user)
-          #  return redirect('home')
-        #else:
-         #   messages.error(request, 'Adresse email ou mot de passe incorrect.')
-    #return render(request, 'login.html')
-
-
-#def user_login(request):
+#def login_view(request):
  #   if request.method == 'POST':
-  #      form = UtilisateursLoginForm(request, data=request.POST)
+  #      form = AuthenticationForm(data=request.POST)
    #     if form.is_valid():
     #        username = form.cleaned_data.get('username')
      #       password = form.cleaned_data.get('password')
-      #      user = authenticate(request, username=username, password=password)
+      #      user = authenticate(username=username, password=password)
        #     if user is not None:
         #        login(request, user)
          #       return redirect('home')
     #else:
-     #   form = UtilisateursLoginForm(request)
+     #   form = AuthenticationForm()
     #return render(request, 'login.html', {'form': form})
+
 
 def login(request):
     if request.method == 'POST':
@@ -548,9 +541,120 @@ def login(request):
                 if check_password(password, utilisateur.mot_de_passe):
                     # Si les informations d'identification sont valides, connecter l'utilisateur et rediriger vers la liste des consommables
                     request.session['utilisateur_id'] = utilisateur.id_utilisateur
-                    return redirect('liste_consommables')
+                    return redirect('tableau_de_bord_utilisateur')
             except Utilisateurs.DoesNotExist:
                 pass
         
     # Si la méthode de la requête est GET, afficher simplement la page de connexion
     return render(request, 'login.html')
+
+
+# Inscription Admin 
+
+def Inscription_admin(request):
+    if request.method == 'POST':
+        form = InscriptionAdminForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['mot_de_passe'])
+            user.save()
+            return redirect('inscription_succes')
+    else:
+        form = InscriptionAdminForm()
+    return render(request, 'inscription_admin.html', {'form': form})
+
+
+# Connexion admin 
+
+def connexion_admin(request):
+    if request.method == 'POST':
+        # Récupérer le nom d'utilisateur et le mot de passe soumis par l'utilisateur
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Vérifier que le nom d'utilisateur et le mot de passe ne sont pas vides
+        if username != '' and password != '':
+            # Vérifier les informations d'identification de l'utilisateur dans la base de données
+            try:
+                user = administrateur.objects.get(adresse_email=username)
+                if make_password(password, user.mot_de_passe):
+                    # Si les informations d'identification sont valides, connecter l'utilisateur et rediriger vers la liste des consommables
+                    request.session['id_administrateur'] = user.id_administrateur
+                    return redirect('tableau_de_bord')
+            except administrateur.DoesNotExist:
+                pass
+        
+    # Si la méthode de la requête est GET, afficher simplement la page de connexion
+    return render(request, 'connexion_admin.html')
+
+# Vue tableau de bord 
+
+def tableau_de_bord(request):
+    # votre code pour le tableau de bord ici
+    return render(request, 'tableau_de_bord.html')
+
+def deconnexion_admin(request):
+    logout(request)
+    return redirect('connexion_admin')
+
+#modification et suppression  de commandes 
+
+def modifier_commande(request, id_commande):
+    commande = get_object_or_404(Commande, id_commande=id_commande)
+    if request.method == 'POST':
+        form = CommandeForm(request.POST, instance=commande)
+        if form.is_valid():
+            form.save()
+            return redirect('liste_commandes')
+    else:
+        form = CommandeForm(instance=commande)
+    return render(request, 'modifier_commande.html', {'form': form})
+
+
+# vue pour suppression d'une commande
+def supprimer_commande(request, id_commande):
+    commande = get_object_or_404(Commande, id_commande=id_commande)
+    if request.method == 'POST':
+        commande.delete()
+        return redirect('liste_commandes')
+    
+    context = {'commande': commande}
+    return render(request, 'supprimer_commande.html', context)
+
+# vue liste utilisateurs 
+
+def liste_utilisateurs(request):
+    utilisateurs = Utilisateurs.objects.all()
+    return render(request, 'liste_utilisateurs.html', {'utilisateurs': utilisateurs})
+
+# vue pour modification d'un fournisseur
+def modifier_fournisseur(request, id_fournisseur):
+    fournisseur = get_object_or_404(Fournisseurs, id_fournisseur=id_fournisseur)
+    form = ModifierFournisseurForm(request.POST or None, instance=fournisseur)
+    if form.is_valid():
+        form.save()
+        return redirect('liste_fournisseurs')
+    context = {'form': form}
+    return render(request, 'modifier_fournisseur.html', context)
+
+# vue pour suppression d'un fournisseur
+def supprimer_fournisseur(request, id_fournisseur):
+    fournisseur = get_object_or_404(Fournisseurs, id_fournisseur=id_fournisseur)
+    if request.method == 'POST':
+        fournisseur.delete()
+        return redirect('liste_fournisseurs')
+    context = {'fournisseur': fournisseur}
+    return render(request, 'supprimer_fournisseur.html', context)
+
+
+# Tableau de bord utilisateur 
+
+# Vue tableau de bord utilisateur
+
+def tableau_de_bord_utilisateur(request):
+    # votre code pour le tableau de bord ici
+    return render(request, 'tableau_de_bord_utilisateur.html')
+def deconnexion_utilisateur(request):
+    logout(request)
+    return redirect('login')
+

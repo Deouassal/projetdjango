@@ -79,4 +79,17 @@ body {
         cursor: pointer;
       }
 
+      button[type="submit"] {
+        background-color: #428bca;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      
+      button[type="submit"]:hover {
+        background-color: #3071a9;
+      }
     
