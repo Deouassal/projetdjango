@@ -7,23 +7,14 @@
 
   <body> 
 
-{% block content %}
-  <h2>Affectation de l'équipement, du consommable ou du matériel informatique</h2>
-  <p>Vous êtes sur le point d'affecter le {{ demande.type_demande }} "{{ demande.description_demande }}" à {{ demande.id_utilisateur }}.</p>
-  <form method="post">
-    {% csrf_token %}
-    <label for="date_affectation">Date d'affectation :</label>
-    <input type="date" name="date_affectation" required><br>
-    <label for="date_retour">Date de retour :</label>
-    <input type="date" name="date_retour" required><br>
-    <button type="submit">Enregistrer</button>
-  </form>
-
-<!-- Lien vers le fichier JavaScript -->
-<script src="{% static 'projetstage/js/affectation.js' %}"></script>
-
-{% endblock %}
-</body></html>
+    {% block content %}
+    <h1>Affectation</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Enregistrer</button>
+    </form>
+  {% endblock %}
 
 
 

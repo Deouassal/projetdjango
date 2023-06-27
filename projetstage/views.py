@@ -23,7 +23,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 #from django.contrib.auth.views import LoginView
 from django.contrib.auth.hashers import check_password, make_password
 from datetime import datetime
-from .forms import FournisseurForm , ModifierFournisseurForm
+from .forms import FournisseurForm , ModifierFournisseurForm, ModifierAffectationForm
 
 
 
@@ -262,28 +262,7 @@ def ajouter_materiel(request):
     else:
         return render(request, 'ajouter_materiel_informatique.html')
 
-#Affectation
 
-
-def affecter_equipement(request, demande_id):
-    demande = Demandes.objects.get(pk=demande_id)
-    if request.method == 'POST':
-        form = AffectationForm(request.POST)
-        if form.is_valid():
-            affectation = form.save(commit=False)
-            affectation.id_equipement = demande.id_équipement
-            affectation.id_consommable = demande.id_consommable
-            affectation.id_materiel_informatique = demande.id_materiel_informatique
-            affectation.id_utilisateur = demande.id_utilisateur
-            affectation.save()
-            demande.delete()
-            if affectation.date_retour:
-                return redirect('update_affectation', affectation_id=affectation.id)
-            else:
-                return redirect('liste_affectations')
-    else:
-        form = AffectationForm()
-    return render(request, 'affecter_equipement.html', {'form': form, 'demande': demande})
 
 # Vue enregistrer commande 
 def enregistrer_commande(request):
@@ -351,9 +330,7 @@ def enregistrer_commande(request):
 def liste_commandes(request):
     commandes = Commande.objects.all()
     return render(request, 'liste_commandes.html', {'commandes': commandes})
-def affectations(request):
-    affectations = Affectations.objects.all()
-    return render(request, 'liste_affectations.html', {'affectations': affectations})
+
  
 # 
 def demander_equipement(request):
@@ -371,21 +348,21 @@ def liste_demandes(request):
     return render(request, 'liste_demandes.html', {'demandes': demandes})
 
 #
-def liste_demandes(request):
-    demandes = Demandes.objects.all()
-    return render(request, 'liste_demandes.html', {'demandes': demandes})
+#def liste_demandes(request):
+ #   demandes = Demandes.objects.all()
+  #  return render(request, 'liste_demandes.html', {'demandes': demandes})
 
 
-def update_affectation(request, affectation_id):
-    affectation = Affectation.objects.get(pk=affectation_id)
-    if request.method == 'POST':
-        form = AffectationUpdateForm(request.POST, instance=affectation)
-        if form.is_valid():
-            form.save()
-            return redirect('liste_affectations')
-    else:
-        form = AffectationUpdateForm(instance=affectation)
-    return render(request, 'update_affectation.html', {'form': form})
+#def update_affectation(request, affectation_id):
+ #   affectation = Affectation.objects.get(pk=affectation_id)
+  #  if request.method == 'POST':
+   #     form = AffectationUpdateForm(request.POST, instance=affectation)
+    #    if form.is_valid():
+     #       form.save()
+      #      return redirect('liste_affectations')
+    #else:
+     #   form = AffectationUpdateForm(instance=affectation)
+    #return render(request, 'update_affectation.html', {'form': form})
 
 
 # vue pour modification 
@@ -658,3 +635,40 @@ def deconnexion_utilisateur(request):
     logout(request)
     return redirect('login')
 
+#Affectation
+
+
+def affectation(request):
+    if request.method == 'POST':
+        form = AffectationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('liste_affectations')
+    else:
+        form = AffectationForm()
+    return render(request, 'affecter_equipement.html', {'form': form})
+# liste affectaions
+def liste_affectations(request):
+    affectations = Affectations.objects.all()
+    return render(request, 'liste_affectations.html', {'affectations': affectations})
+
+# Modifier et supprimer  une affectation
+
+def modifier_affectation(request, id_affectation):
+    affectation = get_object_or_404(Affectations, pk=id_affectation)
+    if request.method == 'POST':
+        form = ModifierAffectationForm(request.POST, instance=affectation)
+        if form.is_valid():
+            form.save()
+            return redirect('liste_affectations')
+    else:
+        form = ModifierAffectationForm(instance=affectation)
+    return render(request, 'modifier_affectation.html', {'form': form})
+
+
+def supprimer_affectation(request, id_affectation):
+    affectation = get_object_or_404(Affectations, pk=id_affectation)
+    if request.method == 'POST':
+        affectation.delete()
+        return redirect('liste_affectations')
+    return render(request, 'supprimer_affectation.html', {'affectation': affectation})

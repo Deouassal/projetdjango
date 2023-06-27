@@ -1,12 +1,56 @@
-{% block content %}
-  <h2>Liste des affectations</h2>
-  {% if affectations %}
-    <ul>
-      {% for affectation in affectations %}
-        <li>{{ affectation.id_utilisateur }} - {{ affectation.type_equipement }} - {{ affectation.date_affectation }} - {{ affectation.date_retour }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Aucune affectation enregistrée pour le moment.</p>
-  {% endif %}
-{% endblock %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des affectations</title>
+  <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>Liste des affectations</h1>
+    {% if affectations %}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Numéro d'affectation</th>
+            <th>Utilisateur</th>
+            <th>Équipement</th>
+            <th>Consommable</th>
+            <th>Matériel informatique</th>
+            <th>Date d'affectation</th>
+            <th>Date de retour</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for affectation in affectations %}
+          <tr>
+            <td>{{ affectation.id_affectation }}</td>
+            <td>{{ affectation.id_utilisateur }}</td>
+            <td>{{ affectation.id_equipement }}</td>
+            <td>{{ affectation.id_consommable }}</td>
+            <td>{{ affectation.id_materiel_informatique }}</td>
+            <td>{{ affectation.date_affectation }}</td>
+            <td>{{ affectation.date_retour }}</td>
+            <td>
+              <a href="{% url 'modifier_affectation' id_affectation=affectation.id_affectation %}" class="button">Modifier</a>
+              <a href="{% url 'supprimer_affectation' id_affectation=affectation.id_affectation %}" class="button">Supprimer</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8">Aucune affectation n'a été enregistrée pour le moment.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>Aucune affectation n'a été enregistrée pour le moment.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

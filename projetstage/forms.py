@@ -169,19 +169,24 @@ class AjouterConsommableForm(forms.ModelForm):
         model = Consommables
         fields = ['nom', 'description', 'quantite', 'id_utilisateur', 'id_fournisseur']
 
+# Affectation 
 class AffectationForm(forms.ModelForm):
-    date_affectation = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    date_retour = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-
     class Meta:
         model = Affectations
         fields = ['id_equipement', 'id_consommable', 'id_materiel_informatique', 'id_utilisateur', 'date_affectation', 'date_retour']
-        labels = {
-            'id_equipement': 'Équipement',
-            'id_consommable': 'Consommable',
-            'id_materiel_informatique': 'Matériel informatique',
-            'id_utilisateur': 'Utilisateur',
-        }       
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['id_equipement'].required = False
+        self.fields['id_consommable'].required = False
+        self.fields['id_materiel_informatique'].required = False
+
+# Modifier et supprimer une affectation 
+class ModifierAffectationForm(forms.ModelForm):
+    class Meta:
+        model = Affectations
+        fields = ['id_equipement', 'id_consommable', 'id_materiel_informatique', 'id_utilisateur', 'date_affectation', 'date_retour']
+
 
 #class DemandeForm(forms.ModelForm):
    # class Meta:

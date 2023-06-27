@@ -7,9 +7,7 @@ from .views import list_materiels_informatiques
 #from .views import list_consommables
 from .views import list_equipements
 from .views import index_admin
-from .views import liste_fournisseurs, affectations
-from .views import liste_equipements, liste_materiel_informatique
-from .views import liste_consommables
+from .views import liste_equipements, liste_materiel_informatique, liste_affectations, liste_consommables, liste_fournisseurs, affectation
 from .views import home 
 
 
@@ -41,8 +39,8 @@ urlpatterns = [
     path('consommables/', views.liste_consommables, name='liste_consommables'),
     path('enregistrer_commande/', views.enregistrer_commande, name='enregistrer_commande'),
     path('liste_commandes/', views.liste_commandes, name='liste_commandes'),
-    path('affecter_equipement/<int:demande_id>/', views.affecter_equipement, name='affecter_equipement'),
-    path('affectations/', views.affectations, name='affectations'),
+    #path('affecter_equipement/<int:demande_id>/', views.affecter_equipement, name='affecter_equipement'),
+    #path('affectations/', views.affectations, name='affectations'),
     path('demander_equipement/', views.demander_equipement, name='demander_equipement'),
     path('liste_demandes/', views.liste_demandes, name='liste_demandes'),
     path('materiel_informatique/', views.liste_materiel_informatique, name='liste_materiel_informatique'),
@@ -78,7 +76,10 @@ urlpatterns = [
     #path('deconnexion/', views.deconnexion_utilisateur, name='deconnexion_utilisateur'),
     path('deconnexion_utilisateur/', views.deconnexion_utilisateur, name='deconnexion_utilisateur'),
     path('deconnexion_admin/', views.deconnexion_admin, name='deconnexion_admin'),
-
+    path('affectations/', views.liste_affectations, name='liste_affectations'),
+    path('affectations/ajouter/', views.affectation, name='ajouter_affectation'),
+    path('affectations/modifier/<int:id_affectation>/', views.modifier_affectation, name='modifier_affectation'),
+    path('affectations/supprimer/<int:id_affectation>/', views.supprimer_affectation, name='supprimer_affectation'),
 
     ]
 
