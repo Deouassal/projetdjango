@@ -3,12 +3,12 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Demande d'équipement</title>
+    <title>Demande </title>
     <link rel="stylesheet" href="{% static 'projetstage/css/demande.css' %}">
 </head>
 <body>
   {% block content %}
-  <h1>Demande d'équipement</h1>
+  <h1>Demande </h1>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

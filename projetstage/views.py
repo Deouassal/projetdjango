@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 from projetstage.models import administrateur
-from .forms import AjouterEquipementForm, CommandeForm
+from .forms import AjouterEquipementForm, CommandeForm, ModifierDemandeForm
 from .models import Fournisseurs
 from .forms import FournisseurForm
 from .models import Utilisateurs
@@ -18,12 +18,12 @@ from .forms import InscriptionAdminForm, ConsommablesForm, SupprimerConsommableF
 #from django.contrib.auth.decorators import login_required
 from .models import Consommables, Commande, Affectations, Demandes , administrateur
 from .models import Equipements , Materiels_Informatiques
-from .forms import AffectationForm, DemandeForm, AjouterConsommableForm,AjouterMaterielForm, EquipementForm, SupprimerMaterielInformatiqueForm, MaterielsInformatiquesForm,  UtilisateursLoginForm
+from .forms import AffectationForm, DemandeForm, AjouterConsommableForm,EquipementForm, SupprimerMaterielInformatiqueForm, MaterielsInformatiquesForm,  UtilisateursLoginForm
 from django.shortcuts import render, get_object_or_404, redirect
 #from django.contrib.auth.views import LoginView
 from django.contrib.auth.hashers import check_password, make_password
 from datetime import datetime
-from .forms import FournisseurForm , ModifierFournisseurForm, ModifierAffectationForm
+from .forms import FournisseurForm , ModifierFournisseurForm, ModifierAffectationForm, AjouterMaterielInformatiqueForm
 from django.urls import reverse
 
 
@@ -116,35 +116,26 @@ def list_materiels_informatiques(request):
 # vue pour ajouter un consommable
 def ajouter_consommable(request):
     if request.method == 'POST':
-        nom = request.POST['nom']
-        description = request.POST['description']
-        quantite = request.POST['quantite']
-        id_utilisateur = request.POST.get('id_utilisateur')
-        
-        if id_utilisateur and id_utilisateur.strip().isdigit():
-            utilisateur = Utilisateurs.objects.get(pk=int(id_utilisateur))
-        else:
-            utilisateur = None
-        
-        id_fournisseur = request.POST.get('id_fournisseur')
-        
-        if id_fournisseur and id_fournisseur.strip().isdigit():
-            fournisseur = Fournisseurs.objects.get(pk=int(id_fournisseur))
-        else:
-            fournisseur = None
-        
-        consommable = Consommables(
-            nom=nom,
-            description=description,
-            quantite=quantite,
-            id_utilisateur=utilisateur,
-            id_fournisseur=fournisseur,
-        )
-        consommable.save()
-        return redirect('liste_consommables')
+        form = AjouterConsommableForm(request.POST)
+        if form.is_valid():
+            consommable = form.save(commit=False)
+            consommable.save()
+            url_liste_consommables = reverse('liste_consommables')
+            url_liste_consommables_utilisateur = reverse('liste_consommables_utilisateur')
+            return redirect(url_liste_consommables, url_liste_consommables_utilisateur)
     else:
-        return render(request, 'ajouter_consommable.html')
+        form = AjouterConsommableForm()
+    context = {'form': form}
+    return render(request, 'ajouter_consommable.html', context)
 
+# 
+
+def liste_consommables_utilisateur(request):
+    consommables = Consommables.objects.filter()
+    context = {'consommables': consommables}
+    return render(request, 'liste_consommables_utilisateur.html', context)
+
+#
 
 def equipements(request):
     equipements = Equipement.objects.all()
@@ -181,6 +172,18 @@ def liste_equipements_utilisateur(request):
     equipements = Equipements.objects.filter()
     context = {'equipements': equipements}
     return render(request, 'equipements_utilisateur.html', context)
+
+#def liste_materiels_utilisateur(request):
+ #   materiels_informatiques = Materiels_Informatiques.objects.filter()
+  #  context = {'materiels_informatiques': materiels_informatiques}
+   # return render(request, 'materiels_utilisateur.html', context) 
+
+
+def liste_materiels_utilisateur(request):
+    materiels_informatiques = Materiels_Informatiques.objects.all()
+    context = {'materiels_informatiques': materiels_informatiques}
+    return render(request, 'liste_materiels_utilisateur.html', context)
+
 # Ajout équipement
 
 def ajouter_equipement(request):
@@ -198,45 +201,21 @@ def ajouter_equipement(request):
         form = AjouterEquipementForm()
     context = {'form': form}
     return render(request, 'ajouter_equipement.html', context)
-
+# vue pour ajouter un matériel informatique
 
 def ajouter_materiel(request):
     if request.method == 'POST':
-        nom = request.POST['nom']
-        description = request.POST['description']
-        numero_serie = request.POST['numero_serie']
-        date_achat = request.POST['date_achat']
-        date_debut_garantie = request.POST['date_debut_garantie']
-        date_fin_garantie = request.POST['date_fin_garantie']
-        id_utilisateur = request.POST.get('id_utilisateur')
-        
-        if id_utilisateur and id_utilisateur.strip().isdigit():
-            utilisateur = Utilisateurs.objects.get(pk=int(id_utilisateur))
-        else:
-            utilisateur = None
-        
-        id_fournisseur = request.POST.get('id_fournisseur')
-        
-        if id_fournisseur and id_fournisseur.strip().isdigit():
-            fournisseur = Fournisseurs.objects.get(pk=int(id_fournisseur))
-        else:
-            fournisseur = None
-        
-        materiel = Materiels_Informatiques(
-            nom=nom,
-            description=description,
-            numero_serie=numero_serie,
-            date_achat=date_achat,
-            date_debut_garantie=date_debut_garantie,
-            date_fin_garantie=date_fin_garantie,
-            id_utilisateur=utilisateur,
-            id_fournisseur=fournisseur,
-        )
-        materiel.save()
-        return redirect('liste_materiel_informatique')
+        form = AjouterMaterielInformatiqueForm(request.POST)
+        if form.is_valid():
+            materiel = form.save(commit=False)
+            materiel.save()
+            url_liste_materiels_informatiques = reverse('liste_materiels_informatiques')
+            url_liste_materiels_utilisateur = reverse('liste_materiels_utilisateur')
+            return redirect(url_liste_materiels_informatiques, url_liste_materiels_utilisateur)
     else:
-        return render(request, 'ajouter_materiel_informatique.html')
-
+        form = AjouterMaterielInformatiqueForm()
+    context = {'form': form}
+    return render(request, 'ajouter_materiel_informatique.html', context)
 
 
 # Vue enregistrer commande 
@@ -312,12 +291,26 @@ def demander_equipement(request):
     if request.method == 'POST':
         form = DemandeForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('liste_demandes')
+            demande = form.save()
+            url_liste_demandes = reverse('liste_demandes')
+            url_liste_demandes_utilisateur = reverse('liste_demandes_utilisateur')
+            if demande.equipement.utilisateur == request.user:
+                return redirect(url_liste_demandes_utilisateur)
+            else:
+                return redirect(url_liste_demandes)
     else:
         form = DemandeForm()
     return render(request, 'demander_equipement.html', {'form': form})
 
+#
+def liste_demandes_utilisateur(request):
+    # Récupérer les demandes d'équipement associées à l'utilisateur connecté
+    demandes_equipement = Demandes.objects.filter()
+    context = {'demandes_equipement': demandes_equipement}
+    return render(request, 'liste_demandes_utilisateur.html', context)
+
+
+#
 def liste_demandes(request):
     demandes = Demandes.objects.all()
     return render(request, 'liste_demandes.html', {'demandes': demandes})
@@ -419,12 +412,12 @@ def supprimer_consommable(request, id_consommable):
 def modifier_demande(request, id_demande):
     demande = get_object_or_404(Demandes, id_demande=id_demande)
     if request.method == 'POST':
-        form = DemandeForm(request.POST, instance=demande)
+        form = ModifierDemandeForm(request.POST, instance=demande)
         if form.is_valid():
             form.save()
             return redirect('liste_demandes')
     else:
-        form = DemandeForm(instance=demande)
+        form = ModifierDemandeForm(instance=demande)
     return render(request, 'modifier_demande.html', {'form': form, 'demande': demande})
 
 

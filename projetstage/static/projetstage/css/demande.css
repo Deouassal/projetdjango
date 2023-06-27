@@ -71,3 +71,13 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
         background-color: #3e8e41;
       }
+
+
+
+h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color:white; 
+  }

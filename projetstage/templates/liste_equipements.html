@@ -8,8 +8,8 @@
   </head>
 
   <body>
+    {% block content %}
     <div class="container">
-      {% block content %}
       <h1>Liste des équipements</h1>
       {% if equipements %}
       <div class="table-responsive">
@@ -58,8 +58,9 @@
       </div>
       {% else %}
       <p>Aucun équipement n'a été enregistré pour le moment.</p>
-      {% endif %}
-      {% endblock %}
+
     </div>
+    {% endif %}
+    {% endblock %}
   </body>
 </html>

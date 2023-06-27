@@ -1,0 +1,52 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des matériels informatiques</title>
+  <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>Liste des matériels informatiques </h1>
+    {% if materiels_informatiques %}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Identifiant</th>
+            <th>Numéro de série</th>
+            <th>Nom</th>
+            <th>Date d'achat</th>
+            <th>Date de début de garantie</th>
+            <th>Date de fin de garantie</th>
+            <th>Utilisateur</th>
+            <th>Fournisseur</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for materiel in materiels_informatiques %}
+          <tr>
+            <td>{{materiel.id_materiel_informatique}}</td>
+            <td>{{ materiel.numero_serie }}</td>
+            <td>{{ materiel.nom }}</td>
+            <td>{{ materiel.date_achat }}</td>
+            <td>{{ materiel.date_debut_garantie }}</td>
+            <td>{{ materiel.date_fin_garantie }}</td>
+            <td>{{ materiel.id_utilisateur }}</td>
+            <td>{{ materiel.id_fournisseur }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7">Aucun matériel informatique n'a été enregistré pour le moment.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>Aucun matériel informatique n'a été enregistré pour le moment.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

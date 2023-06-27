@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Tableau de bord</title>
-  <link rel="stylesheet" href="{% static 'projetstage/css/user.css' %}">
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title>Tableau de bord</title>
+    <link rel="stylesheet" href="{% static 'projetstage/css/user.css' %}">
+  </head>
 <body>
   <header>
     <h1>E-GESTION</h1>
@@ -18,18 +18,19 @@
         <li><a href="{% url 'deconnexion_utilisateur' %}">Se déconnecter</a></li>
     </ul>
     </nav>
-  </header>
+  </header>           
   <main>
     <h2>Bienvenue sur la page de votre application de gestion et affectation des équipements, consommables et matériels informations. Profitez dès maintenant des fonctionalités qu'offre cette application</h2>
     <div class="cards">
       <div class="card">
         <h3>Consommables</h3>
-        <a href="{% url 'liste_consommables' %}" class="button">Voir la liste</a>
+        <a href="{% url 'liste_consommables_utilisateur' %}" class="button">Voir la liste</a>
       </div>
       <div class="card">
         <h3>Demandes</h3>
-        <a href="{% url 'liste_demandes' %}" class="button">Voir la liste</a>
-        <a href="{% url 'demander_equipement' %}" class="button">Effectuer une demande</a>
+        <a href="{% url 'liste_demandes_utilisateur' %}">Voir la liste</a>
+        <a href="{% url 'demander_equipement' %}">Faire une démande</a>
+
       </div>
       <div class="card">
         <h3>Équipements</h3>
@@ -37,7 +38,7 @@
       </div>
       <div class="card">
         <h3>Matériels informatiques</h3>
-        <a href="{% url 'liste_materiel_informatique' %}" class="button">Voir la liste</a>
+        <a href="{% url 'liste_materiels_utilisateur' %}"class="button">Voir la liste </a>
       </div>
   </main>
 </body>

@@ -246,6 +246,12 @@ class DemandeForm(forms.ModelForm):
         model = Demandes
         fields = ['id_utilisateur','type_demande', 'description_demande', 'id_équipement', 'id_consommable', 'id_materiel_informatique']
 
+#
+class ModifierDemandeForm(forms.ModelForm):
+    class Meta:
+        model = Demandes
+        fields = ['id_utilisateur','type_demande', 'description_demande', 'id_équipement', 'id_consommable', 'id_materiel_informatique','état_demande']
+
 
 class SupprimerDemandeForm(forms.Form):
     confirm = forms.BooleanField(label='Confirmer la suppression', required=True)

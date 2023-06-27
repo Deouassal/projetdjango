@@ -3,11 +3,11 @@ from django.contrib import admin
 from . import views
 from .views import register,  inscription_succes
 from .views import inscription_admin, connexion_admin, deconnexion_utilisateur, deconnexion_admin
-from .views import list_materiels_informatiques
+from .views import list_materiels_informatiques, liste_demandes_utilisateur
 #from .views import list_consommables
-from .views import list_equipements, liste_equipements_utilisateur
+from .views import list_equipements, liste_equipements_utilisateur, liste_consommables_utilisateur
 from .views import liste_equipements, liste_materiel_informatique, liste_affectations, liste_consommables, liste_fournisseurs, affectation
-from .views import home 
+from .views import home , liste_materiels_utilisateur
 
 
 #from projetstage.views import login_user
@@ -20,7 +20,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('équipements/', views.équipements,name='équipements'),
     #path('consommables/', views.consommables, name='consommables'),
-    path('materiels_informatiques/', views.materiels_informatiques, name='materiels_informatiques'),
+    #path('materiels_informatiques/', views.materiels_informatiques, name='materiels_informatiques'),
     path('', views.home, name='home'),
     path('inscription/', register, name='inscription'),
     path('inscription_succes/', inscription_succes, name='inscription_succes'),
@@ -80,7 +80,11 @@ urlpatterns = [
     path('affectations/modifier/<int:id_affectation>/', views.modifier_affectation, name='modifier_affectation'),
     path('affectations/supprimer/<int:id_affectation>/', views.supprimer_affectation, name='supprimer_affectation'),
     path('listes_equipements_utilisateur/', views.liste_equipements_utilisateur, name='liste_equipements_utilisateur'),
-
+    path('liste_consommables_utilisateur/', views.liste_consommables_utilisateur, name='liste_consommables_utilisateur'),
+    path('liste_materiels_utilisateur/', views.liste_materiels_utilisateur, name='liste_materiels_utilisateur'),
+    path('demandes/utilisateur/', views.liste_demandes_utilisateur, name='liste_demandes_utilisateur'),
+    
+    
     ]
 
 

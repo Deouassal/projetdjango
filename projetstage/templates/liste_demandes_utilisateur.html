@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Liste des équipements</title>
+    <link rel="stylesheet" href="{% static 'projetstage/css/liste.css' %}">
+  </head>
+
+  <body>
+{% block content %}
+  <div class="container">
+    <h1>Liste des demandes </h1>
+    {% if demandes_equipement %}
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID demande</th>
+              <th>Type demande</th>
+              <th>Description demande</th>
+              <th>Date demande</th>
+              <th>État demande</th>
+              <th>Coût réparation</th>
+              <th>Nom Utilisateur</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for demande in demandes_equipement %}
+              <tr>
+                <td>{{ demande.id_demande }}</td>
+
+                <td>{{ demande.type_demande }}</td>
+                <td>{{ demande.description_demande }}</td>
+                <td>{{ demande.date_demande }}</td>
+                <td>{{ demande.état_demande }}</td>
+                <td>{{ demande.coût_reparation }}</td>
+                <td>{{demande.id_utilisateur}}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6">Aucune demande d'équipement n'a été enregistrée pour le moment.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>Vous n'avez pas encore fait de demande d'équipement.</p>
+    {% endif %}
+  </div>
+{% endblock %}
+</body>
+</html>
