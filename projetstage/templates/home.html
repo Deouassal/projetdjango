@@ -1,36 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}
-{% endblock %}
-
 {% block content %}
-
-
-{% if user.is_authenticated %}
-<div>
-    <div>
-        <h2>Équipements informatiques</h2>
-        <p>Gérez les équipements informatiques de la Direction Générale des Impôts, y compris les ordinateurs, les imprimantes, les scanners, les serveurs, etc.</p>
-        <p><a href="{% url 'équipements' %}" role="button">Voir tous les équipements &raquo;</a></p>
+    <div class="container">
+        <p class="left-aligned-text">Bienvenue sur notre application ! Pour accéder à toutes les fonctionnalités de cette application, veuillez vous connecter ou vous inscrire si vous êtes nouveau.</p>
+        <p>
+            <a href="{% url 'login' %}" role="button">Connexion</a>
+            <span class="bar"></span>
+            <a href="{% url 'register' %}" role="button">Inscription</a>
+        </p>
     </div>
-    <div>
-        <h2>Consommables</h2>
-        <p>Gérez les consommables informatiques de la Direction Générale des Impôts, y compris les cartouches d'encre, les toners, les papier, etc.</p>
-        <p><a href="{% url 'consommables' %}" role="button">Voir tous les consommables &raquo;</a></p>
-    </div>
-    <div>
-        <h2>Matériels informatiques</h2>
-        <p>Gérez les matériels informatiques de la Direction Générale des Impôts, y compris les claviers, les souris, les écrans, les câbles, etc.</p>
-        <p><a href="{% url 'materiels_informatiques' %}" role="button">Voir tous les matériels&raquo;</a></p>
-    </div>
-</div>
-{% else %}
-<div class="container">
-    <p class="left-aligned-text">Bienvenue sur notre application ! Pour accéder à toutes les fonctionnalités de cette application, veuillez vous connecter ou vous inscrire si vous êtes nouveau.</p>
-    <p><a href="{% url 'login' %}" role="button">Connexion</a> <span class="bar"></span> <a href="{% url 'register' %}" role="button">Inscription</a></p>
-    
-
-</div>
-    
-   {% endif %}
 {% endblock %}

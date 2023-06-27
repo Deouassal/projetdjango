@@ -24,7 +24,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.hashers import check_password, make_password
 from datetime import datetime
 from .forms import FournisseurForm , ModifierFournisseurForm, ModifierAffectationForm
-
+from django.urls import reverse
 
 
 
@@ -77,44 +77,29 @@ def inscription_succes(request):
     return render(request, 'inscription_succes.html')
 
 
-# vue pour la page de connexion de l'admin 
 
-def inscription_admin(request):
-    if request.method == 'POST':
-        form = InscriptionAdminForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('connexion_admin')
-    else:
-        form = InscriptionAdminForm()
 
-    context = {
-        'form': form,
-    }
+#def connexion_admin(request):
+ #   if request.method == 'POST':
+  #      form = AuthenticationForm(request, data=request.POST)
+   #     if form.is_valid():
+    #        username = form.cleaned_data.get('username')
+     #       password = form.cleaned_data.get('password')
+      #      user = authenticate(username=username, password=password)
+       #     if user is not None:
+        #        login(request, user)
+         #       return redirect('admin_index')
+    #else:
+     #   form = AuthenticationForm()
 
-    return render(request, 'inscription_admin.html', context)
+    #context = {
+     #   'form': form,
+    #}
 
-def connexion_admin(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('admin_index')
-    else:
-        form = AuthenticationForm()
+    #return render(request, 'connexion_admin.html', context)
 
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'connexion_admin.html', context)
-
-def index_admin(request):
-    return render(request, 'admin_index.html')
+#def index_admin(request):
+ #   return render(request, 'admin_index.html')
 
 def list_equipements(request):
     equipements = Equipements.objects.all()
@@ -192,37 +177,27 @@ def liste_consommables(request):
 def liste_materiel_informatique(request):
     materiels_informatiques = Materiels_Informatiques.objects.all()
     return render(request, 'liste_materiel_informatique.html', {'materiels_informatiques': materiels_informatiques})
+def liste_equipements_utilisateur(request):
+    equipements = Equipements.objects.filter()
+    context = {'equipements': equipements}
+    return render(request, 'equipements_utilisateur.html', context)
+# Ajout équipement
 
 def ajouter_equipement(request):
     if request.method == 'POST':
-        nom = request.POST['nom']
-        numero_serie = request.POST['numero_serie']
-        date_achat = request.POST['date_achat']
-        date_debut_garantie = request.POST['date_debut_garantie']
-        date_fin_garantie = request.POST['date_fin_garantie']
-        statut = request.POST['statut']
-        id_utilisateur = request.POST.get('id_utilisateur')
-        utilisateur = Utilisateurs.objects.get(pk=id_utilisateur)
-        emplacement_actuel = request.POST['emplacement_actuel']
-        id_fournisseur = request.POST.get('id_fournisseur')
-        fournisseur = Fournisseurs.objects.get(pk=id_fournisseur)
-        equipement = Equipements(
-            nom=nom,
-            numero_serie=numero_serie,
-            date_achat=date_achat,
-            date_debut_garantie=date_debut_garantie,
-            date_fin_garantie=date_fin_garantie,
-            statut=statut,
-            id_utilisateur=utilisateur,
-            emplacement_actuel=emplacement_actuel,
-            id_fournisseur=fournisseur,
-        )
-        equipement.statut = 'En stock' # ou 'En service' ou 'Hors service'
-        equipement.save()
-        return redirect('liste_equipements')
+        form = AjouterEquipementForm(request.POST)
+        if form.is_valid():
+            equipement = form.save(commit=False)
+            equipement.utilisateur = request.user
+            equipement.statut = 'En stock'
+            equipement.save()
+            url_liste_equipements = reverse('liste_equipements')
+            url_liste_equipements_utilisateur = reverse('liste_equipements_utilisateur')
+            return redirect(url_liste_equipements, url_liste_equipements_utilisateur)
     else:
-        
-        return render(request, 'ajouter_equipement.html')
+        form = AjouterEquipementForm()
+    context = {'form': form}
+    return render(request, 'ajouter_equipement.html', context)
 
 
 def ajouter_materiel(request):
@@ -525,20 +500,22 @@ def login(request):
     # Si la méthode de la requête est GET, afficher simplement la page de connexion
     return render(request, 'login.html')
 
+# vue pour la page de connexion de l'admin 
 
-# Inscription Admin 
-
-def Inscription_admin(request):
+def inscription_admin(request):
     if request.method == 'POST':
         form = InscriptionAdminForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['mot_de_passe'])
-            user.save()
-            return redirect('inscription_succes')
+            form.save()
+            return redirect('connexion_admin')
     else:
         form = InscriptionAdminForm()
-    return render(request, 'inscription_admin.html', {'form': form})
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'inscription_admin.html', context)
 
 
 # Connexion admin 

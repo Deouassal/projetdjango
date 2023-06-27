@@ -1,12 +1,11 @@
 from django.urls import path, include
 from django.contrib import admin
 from . import views
-from .views import register,  inscription_succes, Inscription_admin
+from .views import register,  inscription_succes
 from .views import inscription_admin, connexion_admin, deconnexion_utilisateur, deconnexion_admin
 from .views import list_materiels_informatiques
 #from .views import list_consommables
-from .views import list_equipements
-from .views import index_admin
+from .views import list_equipements, liste_equipements_utilisateur
 from .views import liste_equipements, liste_materiel_informatique, liste_affectations, liste_consommables, liste_fournisseurs, affectation
 from .views import home 
 
@@ -30,7 +29,7 @@ urlpatterns = [
     #path('administrateur/materiels-informatiques/', list_materiels_informatiques, name='list_materiels_informatiques'),
     #path('administrateur/consommables/', list_consommables, name='list_consommables'),
     path('administrateur/equipements/', list_equipements, name='list_equipements'),
-    path('administrateur/', index_admin, name='index_admin'),
+    #path('administrateur/', index_admin, name='index_admin'),
     path('equipements/ajouter/', views.ajouter_equipement, name='ajouter_equipement'),
     path('fournisseurs/', views.liste_fournisseurs, name='liste_fournisseurs'),
     path('equipements/', liste_equipements, name='liste_equipements'),
@@ -80,6 +79,7 @@ urlpatterns = [
     path('affectations/ajouter/', views.affectation, name='ajouter_affectation'),
     path('affectations/modifier/<int:id_affectation>/', views.modifier_affectation, name='modifier_affectation'),
     path('affectations/supprimer/<int:id_affectation>/', views.supprimer_affectation, name='supprimer_affectation'),
+    path('listes_equipements_utilisateur/', views.liste_equipements_utilisateur, name='liste_equipements_utilisateur'),
 
     ]
 

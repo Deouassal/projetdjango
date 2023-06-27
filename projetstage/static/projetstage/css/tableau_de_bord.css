@@ -1,96 +1,122 @@
-/* Style pour le header */
-header {
+/* Style général */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: blue;
+    }
+    
+    a {
+    text-decoration: none;
+    color: #fff;
+    }
+    
+    h1 {
+    font-size: 2.5em;
+    color: white;
+    text-align: center;
+    margin-top: 50px;
+    }
+    
+    h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+    }
+    
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    }
+    
+    li {
+    float: left;
+    }
+    
+    li a {
+    display: block;
+    padding: 15px;
+    }
+    
+    li a:hover {
+    background-color: #555;
+    }
+    
+    .header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style pour le logo */
-  .logo img {
-    width: 100px;
-  }
-  
-  /* Style pour la nav */
-  nav ul {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Style pour les liens de la nav */
-  nav a {
-    display: block;
-    padding: 1rem;
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  /* Style pour les liens au survol de la souris */
-  nav a:hover {
-    color: #666;
-  }
-  
-  /* Style pour le titre du tableau de bord */
-  main h1 {
-    font-size: 2.5rem;
-    margin: 3rem 0 2rem;
-    text-align: center;
-  }
-  
-  /* Style pour les cartes */
-  .cards {
+    }
+    
+    .logo {
+    width: 150px;
+    }
+    
+    .main {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 -1rem;
-  }
-  
-  /* Style pour les cartes individuelles */
-  .card {
-    flex: 0 0 calc(25% - 2rem);
-    margin: 1rem;
-    padding: 2rem;
-    background-color: #f5f5f5;
-    text-align: center;
+    justify-content: space-around;
+    margin-top: 50px;
+    }
+    
+    .card {
+    background-color: #fff;
+    box-shadow: 0px 0px 5px #ccc;
+    margin: 20px;
+    padding: 20px;
+    width: 300px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style pour le titre des cartes */
-  .card h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Style pour le compte des cartes */
-  .card .count {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Style pour la description des cartes */
-  .card .description {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-  }
-  
-  /* Style pour le bouton des cartes */
-  .card .button {
-    display: inline-block;
-    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+    
+    .card h2 {
+    margin-top: 0;
+    }
+    
+    .card a {
+    margin-top: 10px;
     background-color: #333;
     color: #fff;
-    text-decoration: none;
+    padding: 10px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Style pour le bouton des cartes au survol de la souris */
-  .card .button:hover {
+    
+    }
+    
+    .card a:hover {
     background-color: #555;
-  }
+    }
+    
+    .footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    margin-top: 50px;
+    }
+    
+    .footer p {
+    margin: 0;
+    }
+    
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+    .main {
+    flex-direction: column;
+    align-items: center;
+    }
+    
+    .card {
+    width: 80%;
+    }
+    }
+    
+
+

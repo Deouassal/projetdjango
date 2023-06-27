@@ -2,14 +2,14 @@
 <!DOCTYPE html> <html> 
   <html lang="fr"></html>
   <head> 
-  <link rel="stylesheet" href="{% static 'projetstage/css/admin.css' %} "> 
+  <link rel="stylesheet" href="{% static 'projetstage/css/connexion_admin.css' %} "> 
   </head> 
 
   <body> 
 
 
 {% block content %}
-  <h1>Prêt à gérer vos équipements, consommables et matériels informatiques ? Inscrivez-vous dès maintenant pour commencer.</h1>
+  <h1>Inscrivez-vous</h1>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

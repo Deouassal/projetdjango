@@ -2,15 +2,17 @@
 <!DOCTYPE html> <html> 
   <html lang="fr"></html>
   <head> 
-  <link rel="stylesheet" href="{% static 'projetstage/css/admin.css' %} "> 
+  <link rel="stylesheet" href="{% static 'projetstage/css/connexion_admin.css' %} "> 
+  <title>Connexion administrateur</title>
+
   </head> 
 
   <body> 
 {% block content %}
-  <h1>Connectez vous</h1>
+  <h1>Connectez vous en tant qu'administrateur</h1>
   <form method="post">
     {% csrf_token %}
-    <label for="username">Nom d'administrateur :</label>
+    <label for="username">Adresse email  :</label>
     <input type="text" name="username" id="username"><br>
     <label for="password">Mot de passe :</label>
     <input type="password" name="password" id="password"><br>

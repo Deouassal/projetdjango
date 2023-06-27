@@ -290,14 +290,14 @@ class InscriptionAdminForm(forms.ModelForm):
         return numero_telephone
     class Meta:
         model = administrateur
-        fields = ('nom', 'prénom', 'adresse_email', 'numero_telephone', 'mot_de_passe', 'autorisations')
+        fields = ('nom', 'prénom', 'adresse_email', 'numero_telephone', 'mot_de_passe')
         labels = {
             'nom': 'Nom',
             'prénom': 'prénom',
             'adresse_email': 'Adresse email',
             'numero_telephone': 'Numéro de téléphone',
             'mot_de_passe': 'Mot de passe',
-            'autorisations': 'autorisations',
+           
 
         }
         help_texts = {
@@ -305,7 +305,6 @@ class InscriptionAdminForm(forms.ModelForm):
              'prenom': forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre prénom'})),
              'adresse_email': forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre adresse email'})),
              'numero_telephone': forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre numéro de téléphone'})),
-             'autorisations': forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Vous êtes autorisés en tant que admin à ajouter, modifier et supprimer un élément'})),
         }
             
         error_messages = {
